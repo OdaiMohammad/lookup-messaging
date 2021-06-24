@@ -1,0 +1,140 @@
+version: "3.9"
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    restart: always
+    hostname: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - lookup_zookeeper_data:/var/lib/zookeeper/data
+      - lookup_zookeeper_log:/var/lib/zookeeper/log
+    networks:
+      - lookup
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    restart: always
+    hostname: kafka
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:19092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+    depends_on:
+      - zookeeper
+    volumes:
+      - lookup_kafka_data:/var/lib/kafka/data
+    networks:
+      - lookup
+
+  schema:
+    image: confluentinc/cp-schema-registry:latest
+    container_name: schema
+    restart: always
+    depends_on:
+      - zookeeper
+    environment:
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper:2181
+      SCHEMA_REGISTRY_HOST_NAME: localhost
+      SCHEMA_REGISTRY_LISTENERS: "http://localhost:8085"
+    ports:
+      - 8085:8085
+    networks:
+      - lookup
+
+  connect:
+    image: confluentinc/cp-kafka-connect:latest
+    container_name: connect
+    restart: always
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: "kafka:19092"
+      CONNECT_REST_PORT: 28082
+      CONNECT_GROUP_ID: "connect-cluster"
+      CONNECT_CONFIG_STORAGE_TOPIC: "connect-cluster-config"
+      CONNECT_OFFSET_STORAGE_TOPIC: "connect-cluster-offset"
+      CONNECT_STATUS_STORAGE_TOPIC: "connect-cluster-status"
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: "http://schema:8085"
+      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: "http://schema:8085"
+      CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_PLUGIN_PATH: /usr/share/java,/etc/kafka-connect/jars
+      CONNECT_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      CONNECT_REST_ADVERTISED_HOST_NAME: "localhost"
+      CONNECT_PRODUCER_INTERCEPTOR_CLASSES: brave.kafka.interceptor.TracingProducerInterceptor
+      CONNECT_CONSUMER_INTERCEPTOR_CLASSES: brave.kafka.interceptor.TracingConsumerInterceptor
+      CONNECT_CONNECTOR_CLIENT_CONFIG_OVERRIDE_POLICY: All
+    ports:
+      - 8083:8083
+      - 28082:28082
+    volumes:
+      - $PWD/kafka-connect-jars:/etc/kafka-connect/jars
+    networks:
+      - lookup
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop
+    container_name: kafdrop
+    restart: always
+    ports:
+      - "9000:9000"
+    environment:
+      KAFKA_BROKERCONNECT: "kafka:19092"
+    depends_on:
+      - kafka
+    networks:
+      - lookup
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    restart: always
+    ports:
+      - "9411:9411"
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - lookup
+
+  lookup-requests-distributor:
+    build: lookup-requests-distributor/.
+    image: lookup-requests-distributor:latest
+    container_name: lookup-requests-distributor
+    restart: always
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:19092"
+      SPRING_APPLICATION_NAME: "lookup-requests-distributor"
+      SPRING_ZIPKIN_BASE_URL: "http://zipkin:9411"
+      SPRING_BOOT_ADMIN_CLIENT_URL: http://thynk-requests-admin:8080
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
+      MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: always
+    depends_on:
+      - kafka
+    networks:
+      - lookup
+      
+volumes:
+  lookup_zookeeper_data:
+    name: lookup_zookeeper_data
+  lookup_zookeeper_log:
+    name: lookup_zookeeper_log
+  lookup_kafka_data:
+    name: lookup_kafka_data
+
+networks:
+  lookup:
+    name: lookup
