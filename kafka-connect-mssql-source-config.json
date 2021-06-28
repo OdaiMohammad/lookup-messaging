@@ -3,15 +3,16 @@
     "config": {
         "connector.class": "io.debezium.connector.sqlserver.SqlServerConnector",
         "tasks.max": "1",
-        "database.hostname": "192.168.1.240",        
+        "database.hostname": "192.168.1.240",
+        "database.port" : "1401",
         "database.user": "sa",        
         "database.password": "P@ssw0rd123",        
         "database.dbname": "LookUp_DB",        
         "database.server.name": "mssql-dev",     
         "database.history.kafka.bootstrap.servers" : "kafka:19092",
-        "database.history.kafka.topic": "lookup-requests",   
-  	    "producer.override.zipkin.local.service.name": "mongodb-source-connector",
-        "table.whitelist": "dbo.TRANSACTION",
+        "database.history.kafka.topic": "lookup-requests-database-history",
+  	    "producer.override.zipkin.local.service.name": "mssql-source-connector",
+        "table.include.list": "dbo.TRANSACTIONS",
         "producer.override.zipkin.sender.type": "HTTP",
         "producer.override.zipkin.http.endpoint": "http://zipkin:9411/api/v2/spans"
     }
