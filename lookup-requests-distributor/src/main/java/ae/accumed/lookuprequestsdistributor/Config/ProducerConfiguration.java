@@ -1,4 +1,4 @@
-package ae.accumed.lookuprequestsdistributor.services.Config;
+package ae.accumed.lookuprequestsdistributor.Config;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.kafka.clients.producer.ProducerConfig;
