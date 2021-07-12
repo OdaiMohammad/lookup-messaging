@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Accounts</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- DataTable CSS-->
+    <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet"/>
+
+    <!-- DataTable JS-->
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+<header th:insert="header.html :: header"></header>
+<div class="container-fluid">
+<!--    <table id="myTable" class="display">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>Name</th>-->
+<!--            <th>Facilities</th>-->
+<!--            <th>Actions</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        &lt;!&ndash;/*@thymesVar id="user" type="ae.accumed.dashboardadmin.DTO.response.IndexUserResponse"*/&ndash;&gt;-->
+<!--        <tr th:each="user: ${data.getIndexUserResponses()}">-->
+<!--            <td th:text="${user.name} + ' / ' + ${user.userName}">Row 1 Data 1</td>-->
+<!--            <td>-->
+<!--                &lt;!&ndash;/*@thymesVar id="hospital" type="ae.accumed.dashboardadmin.model.Hospital"*/&ndash;&gt;-->
+<!--                <div th:each="hospital: ${data.getHospitals()}" th:text="${hospital.getHospitalName}  + ' / ' + ${hospital.getHospitalNameArabic}"-->
+<!--                     th:if="${user.getHospitalIds().contains(hospital.getHospitalId)}"></div>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <form method="GET" th:action="@{/edit/{userName}(userName=${user.userName})}">-->
+<!--                    <input type="submit" value="Edit" class="btn btn-primary">-->
+<!--                </form>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+</div>
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        $('#myTable').DataTable();-->
+<!--    });-->
+<!--</script>-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
+        crossorigin="anonymous"></script>
+</body>
+</html>

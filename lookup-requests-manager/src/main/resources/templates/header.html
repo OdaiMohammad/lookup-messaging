@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+</head>
+<body>
+<div th:fragment="header" class="cbp-af-header"
+     style="margin-bottom: 2.5em;padding: 1em 0 1em 1em;border-width: 2px; background-color: #007bff">
+    <div class="cbp-af-inner">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-9">
+                    <h1 style="color:#FFFFFF;">Lookup manager</h1>
+                </div>
+                <div sec:authorize="isAuthenticated()" class="col-3">
+                    <nav>
+                        <h6 style="color:#FFFFFF;display: inline-block">Welcome, Admin!</h6>
+                        <form method="POST" th:action="@{/logout}" style="display: inline-block">
+                            <input type="submit" value="Log out" class="btn btn-primary">
+                        </form>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <nav>
+                <form method="GET" th:action="@{/payers}" style="display: inline-block">
+                    <input type="submit" value="Payers" class="btn btn-primary">
+                </form>
+                <form method="GET" th:action="@{/facilities}" class="nav-form" style="display: inline-block">
+                    <input type="submit" value="Facilities" class="btn btn-primary">
+                </form>
+                <form method="GET" th:action="@{/accounts}" class="nav-form" style="display: inline-block">
+                    <input type="submit" value="Accounts" class="btn btn-primary">
+                </form>
+            </nav>
+        </div>
+    </div>
+</div>
+</body>
+</html>

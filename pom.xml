@@ -11,5 +11,6 @@
 
     <modules>
         <module>lookup-requests-distributor</module>
+        <module>lookup-requests-manager</module>
     </modules>
 </project>
