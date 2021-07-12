@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/payers")
+@RequestMapping("/payer")
 public class PayersController {
 
     private final PayerService payerService;
@@ -26,16 +28,21 @@ public class PayersController {
 
     @GetMapping
     public String payers(Model model) {
-        ArrayList<Payers> payers = (ArrayList<Payers>) payerService.findAll();
-        List<PayerDTO> payerDTOs = payers.stream()
-                .map(payer ->
-                        new PayerDTO(
-                                payer.getId(),
-                                payer.getPayerActive(),
-                                payer.getPayerCode(),
-                                payer.getPayerName()))
-                .collect(Collectors.toList());
-        model.addAttribute("data", payerDTOs);
+        model.addAttribute("data", payerService.findAll());
+        return "payers";
+    }
+
+    @PostMapping("/activate/{payerId}")
+    public String activateAccount(@PathVariable int payerId, Model model){
+        payerService.activatePayer(payerId);
+        model.addAttribute("data", payerService.findAll());
+        return "payers";
+    }
+
+    @PostMapping("/deactivate/{payerId}")
+    public String deactivateAccount(@PathVariable int payerId, Model model){
+        payerService.deactivatePayer(payerId);
+        model.addAttribute("data", payerService.findAll());
         return "payers";
     }
 }

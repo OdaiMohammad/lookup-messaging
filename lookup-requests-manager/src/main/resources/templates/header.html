@@ -27,13 +27,13 @@
         </div>
         <div sec:authorize="isAuthenticated()">
             <nav>
-                <form method="GET" th:action="@{/payers}" style="display: inline-block">
+                <form method="GET" th:action="@{/payer}" style="display: inline-block">
                     <input type="submit" value="Payers" class="btn btn-primary">
                 </form>
-                <form method="GET" th:action="@{/facilities}" class="nav-form" style="display: inline-block">
+                <form method="GET" th:action="@{/facility}" class="nav-form" style="display: inline-block">
                     <input type="submit" value="Facilities" class="btn btn-primary">
                 </form>
-                <form method="GET" th:action="@{/accounts}" class="nav-form" style="display: inline-block">
+                <form method="GET" th:action="@{/account}" class="nav-form" style="display: inline-block">
                     <input type="submit" value="Accounts" class="btn btn-primary">
                 </form>
             </nav>

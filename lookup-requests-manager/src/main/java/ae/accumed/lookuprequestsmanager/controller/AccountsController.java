@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/accounts")
+@RequestMapping("/account")
 public class AccountsController {
 
     private final AccountService accountService;
@@ -28,28 +30,21 @@ public class AccountsController {
 
     @GetMapping
     public String accounts(Model model) {
+        model.addAttribute("data", accountService.findAll());
+        return "accounts";
+    }
 
-        ArrayList<Account> accounts = (ArrayList<Account>) accountService.findAll();
-        List<AccountDTO> accountDTOs = accounts.stream()
-                .map(account ->
-                        new AccountDTO(
-                                account.getId(),
-                                account.getIsactive(),
-                                account.getUserName(),
-                                new FacilityDTO(
-                                        account.getFacilityByFacilityId().getId(),
-                                        account.getFacilityByFacilityId().getDescription(),
-                                        account.getFacilityByFacilityId().getFacilityCode(),
-                                        account.getFacilityByFacilityId().getFacilityName()
-                                ),
-                                new PayerDTO(
-                                        account.getPayersByPayerId().getId(),
-                                        account.getPayersByPayerId().getPayerActive(),
-                                        account.getPayersByPayerId().getPayerCode(),
-                                        account.getPayersByPayerId().getPayerName()
-                                )))
-                .collect(Collectors.toList());
-        model.addAttribute("data", accountDTOs);
+    @PostMapping("/activate/{accountId}")
+    public String activateAccount(@PathVariable int accountId, Model model){
+        accountService.activateAccount(accountId);
+        model.addAttribute("data", accountService.findAll());
+        return "accounts";
+    }
+
+    @PostMapping("/deactivate/{accountId}")
+    public String deactivateAccount(@PathVariable int accountId, Model model){
+        accountService.deactivateAccount(accountId);
+        model.addAttribute("data", accountService.findAll());
         return "accounts";
     }
 }

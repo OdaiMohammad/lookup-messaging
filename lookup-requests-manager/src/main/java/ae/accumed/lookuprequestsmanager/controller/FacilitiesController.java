@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/facilities")
+@RequestMapping("/facility")
 public class FacilitiesController {
 
     private final FacilityService facilityService;
