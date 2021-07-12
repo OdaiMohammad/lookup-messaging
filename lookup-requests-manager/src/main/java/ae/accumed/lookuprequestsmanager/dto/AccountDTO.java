@@ -9,6 +9,6 @@ public class AccountDTO {
     private final int id;
     private final Boolean isActive;
     private final String userName;
-    private final Facility facility;
-    private final Payers payer;
+    private final FacilityDTO facility;
+    private final PayerDTO payer;
 }
