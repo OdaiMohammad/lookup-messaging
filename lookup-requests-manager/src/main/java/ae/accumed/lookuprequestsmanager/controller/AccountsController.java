@@ -1,10 +1,13 @@
 package ae.accumed.lookuprequestsmanager.controller;
 
 import ae.accumed.lookuprequestsmanager.dto.AccountDTO;
+import ae.accumed.lookuprequestsmanager.dto.CreateAccountDTO;
 import ae.accumed.lookuprequestsmanager.dto.FacilityDTO;
 import ae.accumed.lookuprequestsmanager.dto.PayerDTO;
 import ae.accumed.lookuprequestsmanager.entities.Account;
 import ae.accumed.lookuprequestsmanager.service.AccountService;
+import ae.accumed.lookuprequestsmanager.service.FacilityService;
+import ae.accumed.lookuprequestsmanager.service.PayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +25,14 @@ import java.util.stream.Collectors;
 public class AccountsController {
 
     private final AccountService accountService;
+    private final PayerService payerService;
+    private final FacilityService facilityService;
 
     @Autowired
-    public AccountsController(AccountService accountService) {
+    public AccountsController(AccountService accountService,PayerService payerService,FacilityService facilityService) {
         this.accountService = accountService;
+        this.payerService = payerService;
+        this.facilityService = facilityService;
     }
 
     @GetMapping
@@ -44,6 +51,21 @@ public class AccountsController {
     @PostMapping("/deactivate/{accountId}")
     public String deactivateAccount(@PathVariable int accountId, Model model){
         accountService.deactivateAccount(accountId);
+        model.addAttribute("data", accountService.findAll());
+        return "redirect:/account";
+    }
+
+    @GetMapping("/new")
+    public String newAccount(Model model) {
+        model.addAttribute("account", new CreateAccountDTO());
+        model.addAttribute("payers", payerService.findAll());
+        model.addAttribute("facilities", facilityService.findAll());
+        return "new_account";
+    }
+
+    @PostMapping("/new")
+    public String createAccount(CreateAccountDTO createAccountDTO, Model model) {
+        accountService.save(createAccountDTO);
         model.addAttribute("data", accountService.findAll());
         return "redirect:/account";
     }

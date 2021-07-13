@@ -1,9 +1,12 @@
 package ae.accumed.lookuprequestsmanager.service;
 
 import ae.accumed.lookuprequestsmanager.dto.AccountDTO;
+import ae.accumed.lookuprequestsmanager.dto.CreateAccountDTO;
 import ae.accumed.lookuprequestsmanager.dto.FacilityDTO;
 import ae.accumed.lookuprequestsmanager.dto.PayerDTO;
 import ae.accumed.lookuprequestsmanager.entities.Account;
+import ae.accumed.lookuprequestsmanager.entities.Facility;
+import ae.accumed.lookuprequestsmanager.entities.Payers;
 import ae.accumed.lookuprequestsmanager.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +19,14 @@ import java.util.stream.Collectors;
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
+    private final PayerService payerService;
+    private final FacilityService facilityService;
 
     @Autowired
-    public AccountService(AccountRepository accountRepository) {
+    public AccountService(AccountRepository accountRepository,PayerService payerService,FacilityService facilityService) {
         this.accountRepository = accountRepository;
+        this.payerService = payerService;
+        this.facilityService = facilityService;
     }
 
     public ArrayList<AccountDTO> findAll(){
@@ -70,5 +77,17 @@ public class AccountService {
             return true;
         } else
             return false;
+    }
+
+    public void save(CreateAccountDTO createAccountDTO) {
+        Payers payer = payerService.findById(createAccountDTO.getPayerId());
+        Facility facility = facilityService.findById(createAccountDTO.getFacilityId());
+        Account account = new Account();
+        account.setUserName(createAccountDTO.getUserName());
+        account.setPassword(createAccountDTO.getPassword());
+        account.setIsactive(createAccountDTO.getIsActive());
+        account.setPayersByPayerId(payer);
+        account.setFacilityByFacilityId(facility);
+        accountRepository.save(account);
     }
 }

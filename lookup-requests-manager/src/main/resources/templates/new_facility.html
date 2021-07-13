@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>New payer</title>
+    <title>New facility</title>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.js"
@@ -16,22 +16,22 @@
 <body>
 <header th:insert="header.html :: header"></header>
 <div class="container-fluid">
-    <form  method="POST" th:action="@{/payer/new}" th:object="${payer}">
+    <form  method="POST" th:action="@{/facility/new}" th:object="${facility}">
         <div class="form-group">
-            <label for="payerName">Payer's name</label>
-            <input type="text" class="form-control" id="payerName"  name="payerName" aria-describedby="payerNameHelp" placeholder="Payer's name">
-            <small id="payerNameHelp" class="form-text text-muted">Enter the payer's name</small>
+            <label for="facilityName">Facility's name</label>
+            <input type="text" class="form-control" id="facilityName"  name="facilityName" aria-describedby="facilityNameHelp" placeholder="Facility's name">
+            <small id="facilityNameHelp" class="form-text text-muted">Enter the facility's name</small>
         </div>
         <div class="form-group">
-            <label for="payerCode">Payer's code</label>
-            <input type="text" class="form-control" id="payerCode" name="payerCode" aria-describedby="payerCodeHelp" placeholder="Payer's code">
-            <small id="payerCodeHelp" class="form-text text-muted">Enter the payer's code</small>
+            <label for="facilityCode">Facility's code</label>
+            <input type="text" class="form-control" id="facilityCode" name="facilityCode" aria-describedby="facilityCodeHelp" placeholder="Facility's code">
+            <small id="facilityCodeHelp" class="form-text text-muted">Enter the facility's code</small>
         </div>
-        <div class="form-check" style="margin-bottom: 8px">
-            <input type="checkbox" th:field="${payer.isActive}" th:value="true" class="form-check-input" id="isActive" name="isActive">
-            <label class="form-check-label" for="isActive">Payer is active</label>
+        <div class="form-group">
+            <label for="description">Facility description</label>
+            <textarea class="form-control" id="description" rows="3" name="description"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary btn-lg">Create payer</button>
+        <button type="submit" class="btn btn-primary btn-lg">Create facility</button>
     </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"

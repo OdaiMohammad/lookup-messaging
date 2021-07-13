@@ -8,6 +8,7 @@ import ae.accumed.lookuprequestsmanager.service.FacilityService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -26,12 +27,20 @@ public class FacilitiesController {
 
     @GetMapping
     public String facilities(Model model){
-        ArrayList<Facility> facilities = (ArrayList<Facility>) facilityService.findAll();
-        List<FacilityDTO> facilityDTOs = facilities.stream()
-                .map(facility ->
-                        new FacilityDTO(facility.getId(), facility.getDescription(), facility.getFacilityCode(), facility.getFacilityName()))
-                .collect(Collectors.toList());
-        model.addAttribute("data", facilityDTOs);
+        model.addAttribute("data", facilityService.findAll());
         return "facilities";
+    }
+
+    @GetMapping("/new")
+    public String newFacility(Model model) {
+        model.addAttribute("facility", new FacilityDTO());
+        return "new_facility";
+    }
+
+    @PostMapping("/new")
+    public String createFacility(FacilityDTO facilityDTO, Model model) {
+        facilityService.save(facilityDTO);
+        model.addAttribute("data", facilityService.findAll());
+        return "redirect:/facility";
     }
 }

@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountDTO {
+public class CreateAccountDTO {
     private int id;
+    private int payerId;
+    private int facilityId;
     private Boolean isActive;
     private String userName;
-    private FacilityDTO facility;
-    private PayerDTO payer;
+    private String password;
+    private String repeatPassword;
 }

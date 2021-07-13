@@ -21,22 +21,25 @@
 </head>
 <body>
 <header th:insert="header.html :: header"></header>
+<form method="GET" th:action="@{/facility/new}">
+    <input type="submit" value="Create new facility" class="btn btn-primary btn-lg" style="margin: 16px">
+</form>
 <div class="container-fluid">
     <table id="myTable" class="display">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Description</th>
-            <th>Code</th>
             <th>Name</th>
+            <th>Code</th>
+            <th>Description</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="facility: ${data}">
             <td th:text="${facility.id}">Row 1 Data 1</td>
-            <td th:text="${facility.description}">Row 1 Data 1</td>
-            <td th:text="${facility.facilityCode}">Row 1 Data 1</td>
             <td th:text="${facility.facilityName}">Row 1 Data 1</td>
+            <td th:text="${facility.facilityCode}">Row 1 Data 1</td>
+            <td th:text="${facility.description}">Row 1 Data 1</td>
         </tr>
         </tbody>
     </table>
