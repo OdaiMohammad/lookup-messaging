@@ -38,6 +38,14 @@ public class PayerService {
         return payerOptional.orElse(null);
     }
 
+    public void save(PayerDTO payerDTO){
+        Payers payers = new Payers();
+        payers.setPayerName(payerDTO.getPayerName());
+        payers.setPayerCode(payerDTO.getPayerCode());
+        payers.setPayerActive(payerDTO.getIsActive());
+        payerRepository.save(payers);
+    }
+
     public boolean activatePayer(int id){
         Optional<Payers> payerOptional = payerRepository.findById(id);
         if(payerOptional.isPresent()){

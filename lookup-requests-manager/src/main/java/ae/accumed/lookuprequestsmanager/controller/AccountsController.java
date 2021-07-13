@@ -38,13 +38,13 @@ public class AccountsController {
     public String activateAccount(@PathVariable int accountId, Model model){
         accountService.activateAccount(accountId);
         model.addAttribute("data", accountService.findAll());
-        return "accounts";
+        return "redirect:/account";
     }
 
     @PostMapping("/deactivate/{accountId}")
     public String deactivateAccount(@PathVariable int accountId, Model model){
         accountService.deactivateAccount(accountId);
         model.addAttribute("data", accountService.findAll());
-        return "accounts";
+        return "redirect:/account";
     }
 }

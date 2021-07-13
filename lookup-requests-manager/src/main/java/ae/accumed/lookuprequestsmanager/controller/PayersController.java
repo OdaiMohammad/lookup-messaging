@@ -1,7 +1,6 @@
 package ae.accumed.lookuprequestsmanager.controller;
 
 import ae.accumed.lookuprequestsmanager.dto.PayerDTO;
-import ae.accumed.lookuprequestsmanager.entities.Payers;
 import ae.accumed.lookuprequestsmanager.service.PayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,10 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/payer")
@@ -32,17 +27,30 @@ public class PayersController {
         return "payers";
     }
 
+    @GetMapping("/new")
+    public String newPayer(Model model) {
+        model.addAttribute("payer", new PayerDTO());
+        return "new_payer";
+    }
+
     @PostMapping("/activate/{payerId}")
-    public String activateAccount(@PathVariable int payerId, Model model){
+    public String activatePayer(@PathVariable int payerId, Model model) {
         payerService.activatePayer(payerId);
         model.addAttribute("data", payerService.findAll());
-        return "payers";
+        return "redirect:/payer";
     }
 
     @PostMapping("/deactivate/{payerId}")
-    public String deactivateAccount(@PathVariable int payerId, Model model){
+    public String deactivatePayer(@PathVariable int payerId, Model model) {
         payerService.deactivatePayer(payerId);
         model.addAttribute("data", payerService.findAll());
-        return "payers";
+        return "redirect:/payer";
+    }
+
+    @PostMapping("/new")
+    public String createPayer(PayerDTO payerDTO, Model model) {
+        payerService.save(payerDTO);
+        model.addAttribute("data", payerService.findAll());
+        return "redirect:/payer";
     }
 }
