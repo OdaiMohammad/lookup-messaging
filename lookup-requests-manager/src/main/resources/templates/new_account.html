@@ -22,44 +22,74 @@
 <body>
 <header th:insert="header.html :: header"></header>
 <div class="container-fluid">
-    <form  method="POST" th:action="@{/account/new}" th:object="${account}">
+    <form method="POST" th:action="@{/account/new}" th:object="${account}">
+        <span class="validationError alert alert-danger"
+              role="alert"
+              th:if="${#fields.hasErrors('payerId')}"
+              th:errors="*{payerId}">payerId Error</span>
         <div class="form-group">
-            <label for="payerId">Select payer</label>
-            <select id="payerId" name="payerId" class="form-control select2-selector" >
-                <option disabled selected>Select payer</option>
+            <label for="payerId"></label>
+            <select id="payerId" name="payerId" class="form-control select2-selector">
+                <option disabled th:selected="${account.getPayerId()==0}">Select payer</option>
                 <option th:each="payer: ${payers}"
                         th:value="${payer.id}"
-                        th:text="${payer.payerName}">
+                        th:text="${payer.payerName}"
+                        th:selected="${account.getPayerId()==payer.id}">
                 </option>
             </select>
         </div>
+        <span class="validationError alert alert-danger"
+              role="alert"
+              th:if="${#fields.hasErrors('facilityId')}"
+              th:errors="*{facilityId}">facilityId Error</span>
         <div class="form-group">
             <label for="facilityId"></label>
-            <select id="facilityId" name="facilityId" class="form-control  select2-selector" >
-                <option disabled selected>Select facility</option>
+            <select id="facilityId" name="facilityId" class="form-control  select2-selector">
+                <option disabled th:selected="${account.getFacilityId()==0}">Select facility</option>
                 <option th:each="facility: ${facilities}"
                         th:value="${facility.id}"
-                        th:text="${facility.facilityName}">
+                        th:text="${facility.facilityName}"
+                        th:selected="${account.getFacilityId()==facility.id}">
                 </option>
             </select>
         </div>
+        <span class="validationError alert alert-danger"
+              role="alert"
+              th:if="${#fields.hasErrors('userName')}"
+              th:errors="*{userName}">userName Error</span>
         <div class="form-group">
             <label for="userName"></label>
-            <input type="text" class="form-control " id="userName"  name="userName" aria-describedby="userNameHelp" placeholder="Username">
+            <input type="text" class="form-control " id="userName" name="userName" aria-describedby="userNameHelp" th:value="${account.getUserName()}"
+                   placeholder="Username">
             <small id="userNameHelp" class="form-text text-muted">Enter the username for this account</small>
         </div>
+        <span class="validationError alert alert-danger"
+              role="alert"
+              th:if="${#fields.hasErrors('password')}"
+              th:errors="*{password}">password Error</span>
+        <span class="validationError alert alert-danger"
+              role="alert"
+              th:if="${#fields.hasGlobalErrors()}"
+              th:each="error : ${#fields.errors('global')}"
+              th:text="${error}">password match Error</span>
         <div class="form-group">
             <label for="password"></label>
-            <input type="password" class="form-control " id="password" name="password" aria-describedby="passwordHelp" placeholder="Password">
+            <input type="password" class="form-control " id="password" name="password" aria-describedby="passwordHelp"
+                   placeholder="Password">
             <small id="passwordHelp" class="form-text text-muted">Enter the password for this account</small>
         </div>
+        <span class="validationError alert alert-danger"
+              role="alert"
+              th:if="${#fields.hasErrors('repeatPassword')}"
+              th:errors="*{repeatPassword}">repeatPassword Error</span>
         <div class="form-group">
             <label for="repeatPassword"></label>
-            <input type="password" class="form-control " id="repeatPassword" name="repeatPassword" aria-describedby="repeatPasswordHelp" placeholder="Confirm Password">
+            <input type="password" class="form-control " id="repeatPassword" name="repeatPassword"
+                   aria-describedby="repeatPasswordHelp" placeholder="Confirm Password">
             <small id="repeatPasswordHelp" class="form-text text-muted">Confirm the password for this account</small>
         </div>
         <div class="form-check" style="margin-bottom: 8px">
-            <input type="checkbox"  class="form-check-input" id="isActive" name="isActive">
+            <input type="checkbox" th:field="${account.isActive}" class="form-check-input" id="isActive" name="isActive">
             <label class="form-check-label" for="isActive">Account is active</label>
         </div>
         <button type="submit" class="btn btn-primary btn-lg">Create account</button>

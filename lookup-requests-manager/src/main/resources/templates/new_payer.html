@@ -17,18 +17,26 @@
 <header th:insert="header.html :: header"></header>
 <div class="container-fluid">
     <form  method="POST" th:action="@{/payer/new}" th:object="${payer}">
+        <span class="validationError alert alert-danger"
+              role="alert"
+              th:if="${#fields.hasErrors('payerName')}"
+              th:errors="*{payerName}">payerName Error</span>
         <div class="form-group">
-            <label for="payerName">Payer's name</label>
-            <input type="text" class="form-control" id="payerName"  name="payerName" aria-describedby="payerNameHelp" placeholder="Payer's name">
+            <label for="payerName"></label>
+            <input type="text" th:value="${payer.getPayerName()}" class="form-control" id="payerName"  name="payerName" aria-describedby="payerNameHelp" placeholder="Payer's name">
             <small id="payerNameHelp" class="form-text text-muted">Enter the payer's name</small>
         </div>
+        <span class="validationError alert alert-danger"
+              role="alert"
+              th:if="${#fields.hasErrors('payerCode')}"
+              th:errors="*{payerCode}">payerCode Error</span>
         <div class="form-group">
-            <label for="payerCode">Payer's code</label>
-            <input type="text" class="form-control" id="payerCode" name="payerCode" aria-describedby="payerCodeHelp" placeholder="Payer's code">
+            <label for="payerCode"></label>
+            <input type="text" th:value="${payer.getPayerCode()}" class="form-control" id="payerCode" name="payerCode" aria-describedby="payerCodeHelp" placeholder="Payer's code">
             <small id="payerCodeHelp" class="form-text text-muted">Enter the payer's code</small>
         </div>
         <div class="form-check" style="margin-bottom: 8px">
-            <input type="checkbox" th:field="${payer.isActive}" th:value="true" class="form-check-input" id="isActive" name="isActive">
+            <input type="checkbox" th:field="${payer.isActive}" class="form-check-input" id="isActive" name="isActive">
             <label class="form-check-label" for="isActive">Payer is active</label>
         </div>
         <button type="submit" class="btn btn-primary btn-lg">Create payer</button>
