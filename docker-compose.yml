@@ -119,11 +119,18 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:19092"
       SPRING_APPLICATION_NAME: "lookup-requests-distributor"
       SPRING_ZIPKIN_BASE_URL: "http://zipkin:9411"
-      SPRING_BOOT_ADMIN_CLIENT_URL: http://thynk-requests-admin:8080
-      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
-      MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: always
     depends_on:
       - kafka
+    networks:
+      - lookup
+
+  lookup-requests-manager:
+    build: lookup-requests-manager/.
+    image: lookup-requests-manager:latest
+    container_name: lookup-requests-manager
+    restart: always
+    ports:
+      - 9003:8080
     networks:
       - lookup
       
