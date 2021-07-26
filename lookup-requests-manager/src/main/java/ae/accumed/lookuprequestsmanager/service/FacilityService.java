@@ -23,7 +23,7 @@ public class FacilityService {
         ArrayList<Facility> facilities = (ArrayList<Facility>) facilityRepository.findAll();
         return (ArrayList<FacilityDTO>) facilities.stream()
                 .map(facility ->
-                        new FacilityDTO(facility.getId(), facility.getDescription(), facility.getFacilityCode(), facility.getFacilityName()))
+                        new FacilityDTO(facility.getId(), facility.getDescription(), facility.isFacilityActive(), facility.getFacilityCode(), facility.getFacilityName()))
                 .collect(Collectors.toList());
     }
 
@@ -38,5 +38,23 @@ public class FacilityService {
         facility.setFacilityCode(facilityDTO.getFacilityCode());
         facility.setDescription(facilityDTO.getDescription());
         facilityRepository.save(facility);
+    }
+
+    public void activateFacility(int id){
+        Optional<Facility> facilityOptional = facilityRepository.findById(id);
+        if(facilityOptional.isPresent()){
+            Facility facility = facilityOptional.get();
+            facility.setFacilityActive(true);
+            facilityRepository.save(facility);
+        }
+    }
+
+    public void deactivateFacility(int id){
+        Optional<Facility> facilityOptional = facilityRepository.findById(id);
+        if(facilityOptional.isPresent()){
+            Facility facility = facilityOptional.get();
+            facility.setFacilityActive(false);
+            facilityRepository.save(facility);
+        }
     }
 }

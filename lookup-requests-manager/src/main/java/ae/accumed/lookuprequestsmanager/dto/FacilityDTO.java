@@ -15,6 +15,8 @@ public class FacilityDTO {
 
     private String description;
 
+    private Boolean isActive;
+
     @NotNull(message = "Please enter a code for this facility")
     @NotEmpty(message = "Please enter a code for this facility")
     private String facilityCode;
@@ -22,4 +24,6 @@ public class FacilityDTO {
     @NotNull(message = "Please enter a name for this facility")
     @NotEmpty(message = "Please enter a name for this facility")
     private String facilityName;
+
+
 }

@@ -1,6 +1,7 @@
 package ae.accumed.lookuprequestsmanager.entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -11,6 +12,7 @@ public class Account {
     private String userName;
     private Facility facilityByFacilityId;
     private Payers payersByPayerId;
+    private Collection<Transactions> transactionsById;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -87,5 +89,14 @@ public class Account {
 
     public void setPayersByPayerId(Payers payersByPayerId) {
         this.payersByPayerId = payersByPayerId;
+    }
+
+    @OneToMany(mappedBy = "accountByAccountId")
+    public Collection<Transactions> getTransactionsById() {
+        return transactionsById;
+    }
+
+    public void setTransactionsById(Collection<Transactions> transactionsById) {
+        this.transactionsById = transactionsById;
     }
 }

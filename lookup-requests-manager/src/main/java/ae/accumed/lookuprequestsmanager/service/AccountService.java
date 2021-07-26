@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -40,6 +39,7 @@ public class AccountService {
                                 new FacilityDTO(
                                         account.getFacilityByFacilityId().getId(),
                                         account.getFacilityByFacilityId().getDescription(),
+                                        account.getFacilityByFacilityId().isFacilityActive(),
                                         account.getFacilityByFacilityId().getFacilityCode(),
                                         account.getFacilityByFacilityId().getFacilityName()
                                 ),
@@ -57,26 +57,22 @@ public class AccountService {
         return accountOptional.orElse(null);
     }
 
-    public boolean activateAccount(int id){
+    public void activateAccount(int id){
         Optional<Account> accountOptional = accountRepository.findById(id);
         if(accountOptional.isPresent()){
             Account account = accountOptional.get();
             account.setIsactive(true);
             accountRepository.save(account);
-            return true;
-        } else
-            return false;
+        }
     }
 
-    public boolean deactivateAccount(int id){
+    public void deactivateAccount(int id){
         Optional<Account> accountOptional = accountRepository.findById(id);
         if(accountOptional.isPresent()){
             Account account = accountOptional.get();
             account.setIsactive(false);
             accountRepository.save(account);
-            return true;
-        } else
-            return false;
+        }
     }
 
     public void save(CreateAccountDTO createAccountDTO) {

@@ -1,14 +1,12 @@
 package ae.accumed.lookuprequestsmanager.service;
 
 import ae.accumed.lookuprequestsmanager.dto.PayerDTO;
-import ae.accumed.lookuprequestsmanager.entities.Account;
 import ae.accumed.lookuprequestsmanager.entities.Payers;
 import ae.accumed.lookuprequestsmanager.repository.PayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -46,25 +44,21 @@ public class PayerService {
         payerRepository.save(payers);
     }
 
-    public boolean activatePayer(int id){
+    public void activatePayer(int id){
         Optional<Payers> payerOptional = payerRepository.findById(id);
         if(payerOptional.isPresent()){
             Payers payer = payerOptional.get();
             payer.setPayerActive(true);
             payerRepository.save(payer);
-            return true;
-        } else
-            return false;
+        }
     }
 
-    public boolean deactivatePayer(int id){
+    public void deactivatePayer(int id){
         Optional<Payers> payerOptional = payerRepository.findById(id);
         if(payerOptional.isPresent()){
             Payers payer = payerOptional.get();
             payer.setPayerActive(false);
             payerRepository.save(payer);
-            return true;
-        } else
-            return false;
+        }
     }
 }

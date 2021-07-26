@@ -9,6 +9,7 @@ public class Facility {
     private String description;
     private String facilityCode;
     private String facilityName;
+    private boolean facilityActive;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,5 +66,15 @@ public class Facility {
     @Override
     public int hashCode() {
         return Objects.hash(id, description, facilityCode, facilityName);
+    }
+
+    @Basic
+    @Column(name = "facility_active")
+    public boolean isFacilityActive() {
+        return facilityActive;
+    }
+
+    public void setFacilityActive(boolean facilityActive) {
+        this.facilityActive = facilityActive;
     }
 }

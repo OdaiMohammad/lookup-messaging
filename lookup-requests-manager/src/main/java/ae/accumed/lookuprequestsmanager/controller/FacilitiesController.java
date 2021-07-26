@@ -8,10 +8,7 @@ import ae.accumed.lookuprequestsmanager.service.FacilityService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -33,6 +30,20 @@ public class FacilitiesController {
     public String facilities(Model model){
         model.addAttribute("data", facilityService.findAll());
         return "facilities";
+    }
+
+    @PostMapping("/activate/{facilityId}")
+    public String activatePayer(@PathVariable int facilityId, Model model) {
+        facilityService.activateFacility(facilityId);
+        model.addAttribute("data", facilityService.findAll());
+        return "redirect:/facility";
+    }
+
+    @PostMapping("/deactivate/{facilityId}")
+    public String deactivatePayer(@PathVariable int facilityId, Model model) {
+        facilityService.deactivateFacility(facilityId);
+        model.addAttribute("data", facilityService.findAll());
+        return "redirect:/facility";
     }
 
     @GetMapping("/new")
