@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,21 +38,21 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
-    public ArrayList<TransactionDTO> findAll() {
-        ArrayList<Transactions> transactions = (ArrayList<Transactions>) transactionRepository.findAll();
-        return (ArrayList<TransactionDTO>) transactions.stream()
-                .map(transaction ->
-                        new TransactionDTO(
-                                transaction.getId(),
-                                transaction.getBulkId(),
-                                transaction.getCreateDate().toString(),
-                                transaction.getEid(),
-                                transaction.getResult(),
-                                transaction.getResultDate() != null ? transaction.getResultDate().toString() : null,
-                                transaction.getSource(),
-                                transaction.getStatus()
-                        ))
-                .collect(Collectors.toList());
+    public TransactionDTO findById(int id) {
+        Optional<Transactions> transactionsOptional = transactionRepository.findById(id);
+        if (transactionsOptional.isPresent()) {
+            Transactions transaction = transactionsOptional.get();
+            return new TransactionDTO(transaction.getId(),
+                    transaction.getBulkId(),
+                    transaction.getCreateDate().toString(),
+                    transaction.getEid(),
+                    transaction.getResult(),
+                    transaction.getResultDate() != null ? transaction.getResultDate().toString() : null,
+                    transaction.getSource(),
+                    transaction.getStatus(),
+                    transaction.getHtml());
+        }
+        return null;
     }
 
     public ArrayList<TransactionDTO> findAll(
@@ -73,7 +74,8 @@ public class TransactionService {
                                 transaction.getResult(),
                                 transaction.getResultDate() != null ? transaction.getResultDate().toString() : null,
                                 transaction.getSource(),
-                                transaction.getStatus()
+                                transaction.getStatus(),
+                                transaction.getHtml()
                         ))
                 .collect(Collectors.toList());
     }

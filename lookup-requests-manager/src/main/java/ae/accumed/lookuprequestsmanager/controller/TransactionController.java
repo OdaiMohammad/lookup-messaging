@@ -6,10 +6,8 @@ import ae.accumed.lookuprequestsmanager.service.TransactionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -40,5 +38,13 @@ public class TransactionController {
         ArrayList<TransactionDTO> transactionDTOs = transactionService.findAll(start, length, sortColumn, sortDirection, query);
         int count = transactionService.count(query);
         return new ResponseEntity<>(new TransactionDataTableDTO(draw, count, count, transactionDTOs), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/{transactionId}")
+    public String transactionDetails(@PathVariable int transactionId, Model model) {
+        TransactionDTO transaction = transactionService.findById(transactionId);
+        model.addAttribute("data", transaction);
+        return "transaction_details";
     }
 }

@@ -21,4 +21,5 @@ public class TransactionDTO {
     private String resultDate;
     private String source;
     private String status;
+    private String html;
 }
