@@ -16,7 +16,6 @@ public class Transactions {
     private String source;
     private String status;
     private Account accountByAccountId;
-    private Account accountByAccountId_0;
 
     @Id
     @Column(name = "id")
