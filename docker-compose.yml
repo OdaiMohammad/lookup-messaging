@@ -1,131 +1,212 @@
 version: "3.9"
 
 services:
-  zookeeper:
+  membership-messaging-zookeeper-1:
     image: confluentinc/cp-zookeeper:latest
-    container_name: zookeeper
+    container_name: membership-messaging-zookeeper-1
     restart: always
-    hostname: zookeeper
-    ports:
-      - "2181:2181"
+    hostname: membership-messaging-zookeeper-1
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 22181
       ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: "membership-messaging-zookeeper-1:22888:23888;membership-messaging-zookeeper-2:32888:33888;membership-messaging-zookeeper-3:42888:43888"
     volumes:
-      - lookup_zookeeper_data:/var/lib/zookeeper/data
-      - lookup_zookeeper_log:/var/lib/zookeeper/log
+      - membership_messaging_zookeeper_1_data:/var/lib/zookeeper/data
+      - membership_messaging_zookeeper_1_log:/var/lib/zookeeper/log
     networks:
-      - lookup
-    logging:
-      options:
-        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+      - membership-messaging-net
 
-  kafka:
-    image: confluentinc/cp-kafka:latest
-    container_name: kafka
+  membership-messaging-zookeeper-2:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: membership-messaging-zookeeper-2
     restart: always
-    hostname: kafka
-    ports:
-      - "9092:9092"
-      - "29092:29092"
+    hostname: membership-messaging-zookeeper-2
     environment:
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:19092,PLAINTEXT_HOST://localhost:29092
-      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-    depends_on:
-      - zookeeper
+      ZOOKEEPER_SERVER_ID: 2
+      ZOOKEEPER_CLIENT_PORT: 32181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: "membership-messaging-zookeeper-1:22888:23888;membership-messaging-zookeeper-2:32888:33888;membership-messaging-zookeeper-3:42888:43888"
     volumes:
-      - lookup_kafka_data:/var/lib/kafka/data
+      - membership_messaging_zookeeper_2_data:/var/lib/zookeeper/data
+      - membership_messaging_zookeeper_2_log:/var/lib/zookeeper/log
     networks:
-      - lookup
-    logging:
-      options:
-        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+      - membership-messaging-net
 
-  kafdrop:
+  membership-messaging-zookeeper-3:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: membership-messaging-zookeeper-3
+    restart: always
+    hostname: membership-messaging-zookeeper-3
+    environment:
+      ZOOKEEPER_SERVER_ID: 3
+      ZOOKEEPER_CLIENT_PORT: 42181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: "membership-messaging-zookeeper-1:22888:23888;membership-messaging-zookeeper-2:32888:33888;membership-messaging-zookeeper-3:42888:43888"
+    volumes:
+      - membership_messaging_zookeeper_3_data:/var/lib/zookeeper/data
+      - membership_messaging_zookeeper_3_log:/var/lib/zookeeper/log
+    networks:
+      - membership-messaging-net
+
+  membership-messaging-kafka-1:
+    image: confluentinc/cp-kafka:latest
+    container_name: membership-messaging-kafka-1
+    restart: always
+    hostname: membership-messaging-kafka-1
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://membership-messaging-kafka-1:19092
+      KAFKA_ZOOKEEPER_CONNECT: "membership-messaging-zookeeper-1:22181"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+    depends_on:
+      - membership-messaging-zookeeper-1
+      - membership-messaging-zookeeper-2
+      - membership-messaging-zookeeper-3
+    volumes:
+      - membership_messaging_kafka_1_data:/var/lib/kafka/data
+    networks:
+      - membership-messaging-net
+
+  membership-messaging-kafka-2:
+    image: confluentinc/cp-kafka:latest
+    container_name: membership-messaging-kafka-2
+    restart: always
+    hostname: membership-messaging-kafka-2
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://membership-messaging-kafka-2:29092
+      KAFKA_ZOOKEEPER_CONNECT: "membership-messaging-zookeeper-2:32181"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+    depends_on:
+      - membership-messaging-zookeeper-1
+      - membership-messaging-zookeeper-2
+      - membership-messaging-zookeeper-3
+    volumes:
+      - membership_messaging_kafka_2_data:/var/lib/kafka/data
+    networks:
+      - membership-messaging-net
+
+  membership-messaging-kafka-3:
+    image: confluentinc/cp-kafka:latest
+    container_name: membership-messaging-kafka-3
+    restart: always
+    hostname: membership-messaging-kafka-3
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://membership-messaging-kafka-3:39092
+      KAFKA_ZOOKEEPER_CONNECT: "membership-messaging-zookeeper-3:42181"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+    depends_on:
+      - membership-messaging-zookeeper-1
+      - membership-messaging-zookeeper-2
+      - membership-messaging-zookeeper-3
+    volumes:
+      - membership_messaging_kafka_3_data:/var/lib/kafka/data
+    networks:
+      - membership-messaging-net
+
+  membership-messaging-schema-registry:
+    image: confluentinc/cp-schema-registry:latest
+    container_name: membership-messaging-schema-registry
+    restart: always
+    depends_on:
+      - membership-messaging-zookeeper-1
+      - membership-messaging-zookeeper-2
+      - membership-messaging-zookeeper-3
+    environment:
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: membership-messaging-zookeeper-1:22181
+      SCHEMA_REGISTRY_HOST_NAME: localhost
+      SCHEMA_REGISTRY_LISTENERS: "http://localhost:8085"
+    networks:
+      - membership-messaging-net
+
+  membership-messaging-kafka-connect:
+    image: confluentinc/cp-kafka-connect:latest
+    container_name: membership-messaging-kafka-connect
+    restart: always
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: "membership-messaging-kafka-1:19092"
+      CONNECT_REST_PORT: 28082
+      CONNECT_GROUP_ID: "connect-cluster"
+      CONNECT_CONFIG_STORAGE_TOPIC: "connect-cluster-config"
+      CONNECT_OFFSET_STORAGE_TOPIC: "connect-cluster-offset"
+      CONNECT_STATUS_STORAGE_TOPIC: "connect-cluster-status"
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 3
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 3
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 3
+      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: "http://membership-messaging-schema-registry:8085"
+      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: "http://membership-messaging-schema-registry:8085"
+      CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_PLUGIN_PATH: /usr/share/java,/etc/kafka-connect/jars
+      CONNECT_ZOOKEEPER_CONNECT: "membership-messaging-zookeeper-1:22181"
+      CONNECT_REST_ADVERTISED_HOST_NAME: "localhost"
+      CONNECT_PRODUCER_INTERCEPTOR_CLASSES: brave.kafka.interceptor.TracingProducerInterceptor
+      CONNECT_CONSUMER_INTERCEPTOR_CLASSES: brave.kafka.interceptor.TracingConsumerInterceptor
+      CONNECT_CONNECTOR_CLIENT_CONFIG_OVERRIDE_POLICY: All
+    ports:
+      - 28082:28082
+    volumes:
+      - $PWD/kafka-connect-jars:/etc/kafka-connect/jars
+    networks:
+      - membership-messaging-net
+
+  membership-messaging-kafdrop:
     image: obsidiandynamics/kafdrop
-    container_name: kafdrop
+    container_name: membership-messaging-kafdrop
     restart: always
     ports:
       - "9000:9000"
     environment:
-      KAFKA_BROKERCONNECT: "kafka:19092"
+      KAFKA_BROKERCONNECT: "membership-messaging-kafka-1:19092"
     depends_on:
-      - kafka
+      - membership-messaging-kafka-1
+      - membership-messaging-kafka-2
+      - membership-messaging-kafka-3
     networks:
-      - lookup
-    logging:
-      options:
-        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+      - membership-messaging-net
 
-  zipkin:
+  membership-messaging-zipkin:
     image: openzipkin/zipkin
-    container_name: zipkin
+    container_name: membership-messaging-zipkin
     restart: always
     ports:
       - "9411:9411"
-    environment:
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     networks:
-      - lookup
-    logging:
-      options:
-        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+      - membership-messaging-net
 
-  lookup-requests-distributor:
-    build: lookup-requests-distributor/.
-    image: lookup-requests-distributor:latest
-    container_name: lookup-requests-distributor
-    restart: always
-    environment:
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:19092"
-      SPRING_APPLICATION_NAME: "lookup-requests-distributor"
-      SPRING_ZIPKIN_BASE_URL: "http://zipkin:9411"
-    depends_on:
-      - kafka
-    networks:
-      - lookup
-    logging:
-      options:
-        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
-
-  lookup-requests-manager:
-    build: lookup-requests-manager/.
-    image: lookup-requests-manager:latest
-    container_name: lookup-requests-manager
-    restart: always
-    ports:
-      - 9003:8080
-    networks:
-      - lookup
-    logging:
-      options:
-        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
-
-  container-supervisor:
-    build: container-supervisor/.
-    image: container-supervisor:latest
-    container_name: container-supervisor
-    restart: always
-    ports:
-      - 9094:8080
-    networks:
-      - lookup
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    logging:
-      options:
-        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
-      
 volumes:
-  lookup_zookeeper_data:
-    name: lookup_zookeeper_data
-  lookup_zookeeper_log:
-    name: lookup_zookeeper_log
-  lookup_kafka_data:
-    name: lookup_kafka_data
+  membership_messaging_zookeeper_1_data:
+    name: membership_messaging_zookeeper_1_data
+  membership_messaging_zookeeper_1_log:
+    name: membership_messaging_zookeeper_1_log
+  membership_messaging_zookeeper_2_data:
+    name: membership_messaging_zookeeper_2_data
+  membership_messaging_zookeeper_2_log:
+    name: membership_messaging_zookeeper_2_log
+  membership_messaging_zookeeper_3_data:
+    name: membership_messaging_zookeeper_3_data
+  membership_messaging_zookeeper_3_log:
+    name: membership_messaging_zookeeper_3_log
+  membership_messaging_kafka_1_data:
+    name: membership_messaging_kafka_1_data
+  membership_messaging_kafka_2_data:
+    name: membership_messaging_kafka_2_data
+  membership_messaging_kafka_3_data:
+    name: membership_messaging_kafka_3_data
 
 networks:
-  lookup:
-    name: lookup
+  membership-messaging-net:
+    name: membership-messaging-net
+  stg0:
+    name: stg0
+    external: true
