@@ -164,6 +164,7 @@ services:
       - $PWD/kafka-connect-jars:/etc/kafka-connect/jars
     networks:
       membership-messaging-net:
+        ipv4_address: 172.50.0.28
       stg0:
           ipv4_address: 172.30.0.50
 
@@ -182,7 +183,7 @@ services:
       - membership-messaging-kafka-3
     networks:
       membership-messaging-net:
-        ipv4_address: 172.50.0.10
+        ipv4_address: 172.50.0.29
 
   membership-messaging-manager:
     build: lookup-requests-manager/.
