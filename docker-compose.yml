@@ -153,19 +153,42 @@ services:
       CONNECT_PRODUCER_INTERCEPTOR_CLASSES: brave.kafka.interceptor.TracingProducerInterceptor
       CONNECT_CONSUMER_INTERCEPTOR_CLASSES: brave.kafka.interceptor.TracingConsumerInterceptor
       CONNECT_CONNECTOR_CLIENT_CONFIG_OVERRIDE_POLICY: All
-    ports:
-      - 28082:28082
     volumes:
       - $PWD/kafka-connect-jars:/etc/kafka-connect/jars
     networks:
       - membership-messaging-net
+      - stg0:
+          ipv4_address: 172.30.0.50
+
+  membership-messaging-distributor:
+    build: lookup-requests-distributor/.
+    image: membership-messaging-distributor:latest
+    container_name: membership-messaging-distributor
+    restart: always
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "membership-messaging-kafka-1:19092"
+      SPRING_APPLICATION_NAME: "membership-messaging-distributor"
+      SPRING_ZIPKIN_BASE_URL: "http://membership-messaging-zipkin:9411"
+    depends_on:
+      - kafka
+    networks:
+      - membership-messaging-net
+
+  membership-messaging-manager:
+    build: lookup-requests-manager/.
+    image: membership-messaging-manager:latest
+    container_name: membership-messaging-manager
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:sqlserver://mssql:1433;database=LookUp_DB"
+    networks:
+      - stg0:
+          ipv4_address: 172.30.0.51
 
   membership-messaging-kafdrop:
     image: obsidiandynamics/kafdrop
     container_name: membership-messaging-kafdrop
     restart: always
-    ports:
-      - "9000:9000"
     environment:
       KAFKA_BROKERCONNECT: "membership-messaging-kafka-1:19092"
     depends_on:
@@ -173,16 +196,16 @@ services:
       - membership-messaging-kafka-2
       - membership-messaging-kafka-3
     networks:
-      - membership-messaging-net
+      - membership-messaging-net:
+          ipv4_address: 172.50.0.11
 
   membership-messaging-zipkin:
     image: openzipkin/zipkin
     container_name: membership-messaging-zipkin
     restart: always
-    ports:
-      - "9411:9411"
     networks:
-      - membership-messaging-net
+      - membership-messaging-net:
+          ipv4_address: 172.50.0.10
 
 volumes:
   membership_messaging_zookeeper_1_data:
@@ -207,6 +230,9 @@ volumes:
 networks:
   membership-messaging-net:
     name: membership-messaging-net
+    ipam:
+      config:
+        - subnet: 172.50.0.0/16
   stg0:
     name: stg0
     external: true

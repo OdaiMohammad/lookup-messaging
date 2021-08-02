@@ -1,0 +1,19 @@
+{
+    "name": "mssql-source-connector",
+    "config": {
+        "connector.class": "io.debezium.connector.sqlserver.SqlServerConnector",
+        "tasks.max": "1",
+        "database.hostname": "mssql",
+        "database.port" : "1433",
+        "database.user": "sa",        
+        "database.password": "P@ssw0rd123",        
+        "database.dbname": "LookUp_DB",        
+        "database.server.name": "mssql",
+        "database.history.kafka.bootstrap.servers" : "membership-messaging-kafka-1:19092",
+        "database.history.kafka.topic": "membership-messaging-database-history",
+  	    "producer.override.zipkin.local.service.name": "mssql-source-connector",
+        "table.include.list": "dbo.TRANSACTIONS",
+        "producer.override.zipkin.sender.type": "HTTP",
+        "producer.override.zipkin.http.endpoint": "http://membership-messaging-zipkin:9411/api/v2/spans"
+    }
+}
