@@ -156,9 +156,9 @@ services:
     volumes:
       - $PWD/kafka-connect-jars:/etc/kafka-connect/jars
     networks:
-      - membership-messaging-net
-      - stg0:
-          ipv4_address: 172.30.0.50
+      membership-messaging-net:
+      stg0:
+          ipv4_address: "172.30.0.50"
 
   membership-messaging-distributor:
     build: lookup-requests-distributor/.
@@ -170,7 +170,9 @@ services:
       SPRING_APPLICATION_NAME: "membership-messaging-distributor"
       SPRING_ZIPKIN_BASE_URL: "http://membership-messaging-zipkin:9411"
     depends_on:
-      - kafka
+      - membership-messaging-kafka-1
+      - membership-messaging-kafka-2
+      - membership-messaging-kafka-3
     networks:
       - membership-messaging-net
 
@@ -182,7 +184,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: "jdbc:sqlserver://mssql:1433;database=LookUp_DB"
     networks:
-      - stg0:
+      stg0:
           ipv4_address: 172.30.0.51
 
   membership-messaging-kafdrop:
@@ -196,7 +198,7 @@ services:
       - membership-messaging-kafka-2
       - membership-messaging-kafka-3
     networks:
-      - membership-messaging-net:
+       membership-messaging-net:
           ipv4_address: 172.50.0.11
 
   membership-messaging-zipkin:
@@ -204,7 +206,7 @@ services:
     container_name: membership-messaging-zipkin
     restart: always
     networks:
-      - membership-messaging-net:
+      membership-messaging-net:
           ipv4_address: 172.50.0.10
 
 volumes:
