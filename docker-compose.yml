@@ -162,6 +162,8 @@ services:
       CONNECT_CONNECTOR_CLIENT_CONFIG_OVERRIDE_POLICY: All
     volumes:
       - $PWD/kafka-connect-jars:/etc/kafka-connect/jars
+    ports:
+      - 28082:28082
     networks:
       membership-messaging-net:
         ipv4_address: 172.50.0.28
