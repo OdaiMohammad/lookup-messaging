@@ -2,17 +2,18 @@ package ae.accumed.lookuprequestsmanager.entities;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 public class Transactions {
     private int id;
     private String bulkId;
-    private Date createDate;
+    private LocalDateTime createDate;
     private String eid;
     private String html;
     private String result;
-    private Date resultDate;
+    private LocalDateTime resultDate;
     private String source;
     private String status;
     private Account accountByAccountId;
@@ -40,11 +41,11 @@ public class Transactions {
 
     @Basic
     @Column(name = "create_date")
-    public Date getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 
@@ -80,11 +81,11 @@ public class Transactions {
 
     @Basic
     @Column(name = "result_date")
-    public Date getResultDate() {
+    public LocalDateTime getResultDate() {
         return resultDate;
     }
 
-    public void setResultDate(Date resultDate) {
+    public void setResultDate(LocalDateTime resultDate) {
         this.resultDate = resultDate;
     }
 

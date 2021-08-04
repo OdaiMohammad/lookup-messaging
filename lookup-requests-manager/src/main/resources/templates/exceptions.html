@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Transactions</title>
+    <title>Exceptions</title>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.js"
@@ -26,11 +26,10 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>Bulk Id</th>
-            <th>Create Date</th>
-            <th>EID</th>
-            <th>Source</th>
-            <th>Status</th>
+            <th>Exception Date</th>
+            <th>Exception Message</th>
+            <th>Emirates ID</th>
+            <th>Facility</th>
         </tr>
         </thead>
         <tbody>
@@ -43,25 +42,24 @@
             {
                 processing: true,
                 serverSide: true,
-                aaSorting: [ [2,"desc" ]],
+                aaSorting: [ [1,"desc" ]],
                 ajax: {
-                    url: '/transaction/api',
+                    url: '/exception/api',
                     dataSrc: 'data'
                 },
                 columns: [
                     {"data": "id"},
-                    {"data": "bulkId"},
-                    {"data": "createDate"},
-                    {"data": "eid"},
-                    {"data": "source"},
-                    {"data": "status"}
+                    {"data": "exceptionDate"},
+                    {"data": "exceptionMessage"},
+                    {"data": "emiratesId"},
+                    {"data": "facility"}
                 ]
             }
         );
 
         $('#myTable tbody').on('click', 'tr', function () {
             let data = table.row(this).data();
-            window.open('/transaction/' + data['id'])
+            window.open('/exception/' + data['id'])
         });
     });
 </script>

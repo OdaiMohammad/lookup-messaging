@@ -5,12 +5,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 public class Exceptions {
     private int id;
-    private Timestamp exceptionDate;
+    private LocalDateTime exceptionDate;
     private String exceptionTrace;
     private String exceptionMessage;
     private String emiratesId;
@@ -29,11 +30,11 @@ public class Exceptions {
 
     @Basic
     @Column(name = "exception_date")
-    public Timestamp getExceptionDate() {
+    public LocalDateTime getExceptionDate() {
         return exceptionDate;
     }
 
-    public void setExceptionDate(Timestamp exceptionDate) {
+    public void setExceptionDate(LocalDateTime exceptionDate) {
         this.exceptionDate = exceptionDate;
     }
 

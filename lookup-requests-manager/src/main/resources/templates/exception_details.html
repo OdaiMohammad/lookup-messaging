@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Transactions</title>
+    <title>Exception</title>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.js"
@@ -18,6 +18,7 @@
 
     <!-- DataTable JS-->
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
 </head>
 <body>
 <header th:insert="header.html :: header"></header>
@@ -26,43 +27,37 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>Bulk Id</th>
-            <th>Create Date</th>
-            <th>EID</th>
-            <th>Source</th>
-            <th>Status</th>
+            <th>Exception Date</th>
+            <th>Exception Message</th>
+            <th>Emirates ID</th>
+            <th>Facility</th>
         </tr>
         </thead>
         <tbody>
+        <tr>
+            <td th:text="${data.id}">Row 1 Data 1</td>
+            <td th:text="${data.exceptionDate}">Row 1 Data 1</td>
+            <td th:text="${data.exceptionMessage}">Row 1 Data 1</td>
+            <td th:text="${data.emiratesId}">Row 1 Data 1</td>
+            <td th:text="${data.facility}">Row 1 Data 1</td>
+        </tr>
         </tbody>
     </table>
+    <div style="margin-top: 2.5em">
+        <h3>Stack Trace:</h3>
+        <p th:text="${data.exceptionTrace}"></p>
+    </div>
 </div>
 <script>
     $(document).ready(function () {
-        let table = $('#myTable').DataTable(
+        $('#myTable').DataTable(
             {
-                processing: true,
-                serverSide: true,
-                aaSorting: [ [2,"desc" ]],
-                ajax: {
-                    url: '/transaction/api',
-                    dataSrc: 'data'
-                },
-                columns: [
-                    {"data": "id"},
-                    {"data": "bulkId"},
-                    {"data": "createDate"},
-                    {"data": "eid"},
-                    {"data": "source"},
-                    {"data": "status"}
-                ]
+                paging: false,
+                ordering: false,
+                searching: false,
+                info: false
             }
         );
-
-        $('#myTable tbody').on('click', 'tr', function () {
-            let data = table.row(this).data();
-            window.open('/transaction/' + data['id'])
-        });
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"

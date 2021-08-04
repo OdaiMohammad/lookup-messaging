@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 public class TransactionService {
     private final TransactionRepository transactionRepository;
+    private final static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     private static final HashMap<Integer, String> columnIndexMapping = new HashMap<Integer, String>() {
         {
             put(0, "id");
@@ -44,10 +46,10 @@ public class TransactionService {
             Transactions transaction = transactionsOptional.get();
             return new TransactionDTO(transaction.getId(),
                     transaction.getBulkId(),
-                    transaction.getCreateDate().toString(),
+                    transaction.getCreateDate().format(dateFormat),
                     transaction.getEid(),
                     transaction.getResult(),
-                    transaction.getResultDate() != null ? transaction.getResultDate().toString() : null,
+                    transaction.getResultDate() != null ? transaction.getResultDate().format(dateFormat) : null,
                     transaction.getSource(),
                     transaction.getStatus(),
                     transaction.getHtml());
@@ -69,10 +71,10 @@ public class TransactionService {
                         new TransactionDTO(
                                 transaction.getId(),
                                 transaction.getBulkId(),
-                                transaction.getCreateDate().toString(),
+                                transaction.getCreateDate().format(dateFormat),
                                 transaction.getEid(),
                                 transaction.getResult(),
-                                transaction.getResultDate() != null ? transaction.getResultDate().toString() : null,
+                                transaction.getResultDate() != null ? transaction.getResultDate().format(dateFormat) : null,
                                 transaction.getSource(),
                                 transaction.getStatus(),
                                 transaction.getHtml()
