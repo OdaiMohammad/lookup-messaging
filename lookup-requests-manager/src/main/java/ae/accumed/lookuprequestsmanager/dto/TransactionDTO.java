@@ -14,7 +14,7 @@ import java.sql.Date;
 public class TransactionDTO {
     private int id;
 
-    private Integer bulkId;
+    private String bulkId;
     private String createDate;
     private String eid;
     private String result;

@@ -100,10 +100,12 @@ public class TransactionService {
                     criteriaBuilder.like(root.get("bulkId").as(String.class), "%" + query + "%"),
                     criteriaBuilder.like(root.get("createDate").as(String.class), "%" + query + "%"),
                     criteriaBuilder.like(root.get("eid"), "%" + query + "%"),
+                    criteriaBuilder.like(root.get("html"), "%" + query + "%"),
                     criteriaBuilder.like(root.get("result"), "%" + query + "%"),
                     criteriaBuilder.like(root.get("resultDate").as(String.class), "%" + query + "%"),
                     criteriaBuilder.like(root.get("source"), "%" + query + "%"),
-                    criteriaBuilder.like(root.get("status"), "%" + query + "%")
+                    criteriaBuilder.like(root.get("status"), "%" + query + "%"),
+                    criteriaBuilder.like(root.get("errorMessage"), "%" + query + "%")
             );
 
             return criteriaBuilder.and(predicate);

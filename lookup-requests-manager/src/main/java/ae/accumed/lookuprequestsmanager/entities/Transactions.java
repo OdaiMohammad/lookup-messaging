@@ -7,7 +7,7 @@ import java.util.Objects;
 @Entity
 public class Transactions {
     private int id;
-    private Integer bulkId;
+    private String bulkId;
     private Date createDate;
     private String eid;
     private String html;
@@ -16,6 +16,7 @@ public class Transactions {
     private String source;
     private String status;
     private Account accountByAccountId;
+    private String errorMessage;
 
     @Id
     @Column(name = "id")
@@ -29,11 +30,11 @@ public class Transactions {
 
     @Basic
     @Column(name = "bulk_id")
-    public Integer getBulkId() {
+    public String getBulkId() {
         return bulkId;
     }
 
-    public void setBulkId(Integer bulkId) {
+    public void setBulkId(String bulkId) {
         this.bulkId = bulkId;
     }
 
@@ -136,5 +137,15 @@ public class Transactions {
 
     public void setAccountByAccountId(Account accountByAccountId) {
         this.accountByAccountId = accountByAccountId;
+    }
+
+    @Basic
+    @Column(name = "error_message")
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }
