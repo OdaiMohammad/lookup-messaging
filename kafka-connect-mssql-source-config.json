@@ -8,7 +8,7 @@
         "database.user": "sa",        
         "database.password": "P@ssw0rd123",        
         "database.dbname": "LookUp_DB",        
-        "database.server.name": "mssql",
+        "database.server.name": "mssql-dev",
         "database.history.kafka.bootstrap.servers" : "membership-messaging-kafka-1:19092",
         "database.history.kafka.topic": "membership-messaging-database-history",
   	    "producer.override.zipkin.local.service.name": "mssql-source-connector",

@@ -64,10 +64,10 @@ services:
     restart: always
     hostname: membership-messaging-kafka-1
     environment:
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://membership-messaging-kafka-1:19092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://membership-messaging-kafka-1:19092,PLAINTEXT_OUT://stage-grafana.santechture.com:29092
       KAFKA_ZOOKEEPER_CONNECT: "membership-messaging-zookeeper-1:22181"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_OUT:PLAINTEXT
     depends_on:
       - membership-messaging-zookeeper-1
       - membership-messaging-zookeeper-2
@@ -179,6 +179,8 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "membership-messaging-kafka-1:19092"
       SPRING_APPLICATION_NAME: "membership-messaging-distributor"
       SPRING_ZIPKIN_BASE_URL: "http://membership-messaging-zipkin:9411"
+      SPRING_DATASOURCE_URL: "jdbc:sqlserver://mssql:1433;database=LookUp_DB"
+      TOPIC_LOOKUP_REQUESTS_NAME: "mssql.dbo.TRANSACTIONS"
     depends_on:
       - membership-messaging-kafka-1
       - membership-messaging-kafka-2
@@ -186,6 +188,8 @@ services:
     networks:
       membership-messaging-net:
         ipv4_address: 172.50.0.29
+      stg0:
+        ipv4_address: 172.30.0.52
 
   membership-messaging-manager:
     build: lookup-requests-manager/.
