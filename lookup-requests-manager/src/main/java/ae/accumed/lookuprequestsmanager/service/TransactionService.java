@@ -1,6 +1,7 @@
 package ae.accumed.lookuprequestsmanager.service;
 
 import ae.accumed.lookuprequestsmanager.dto.TransactionDTO;
+import ae.accumed.lookuprequestsmanager.dto.TransactionDetailsDTO;
 import ae.accumed.lookuprequestsmanager.entities.Transactions;
 import ae.accumed.lookuprequestsmanager.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +41,11 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
-    public TransactionDTO findById(int id) {
+    public TransactionDetailsDTO findById(int id) {
         Optional<Transactions> transactionsOptional = transactionRepository.findById(id);
         if (transactionsOptional.isPresent()) {
             Transactions transaction = transactionsOptional.get();
-            return new TransactionDTO(transaction.getId(),
+            return new TransactionDetailsDTO(transaction.getId(),
                     transaction.getBulkId(),
                     transaction.getCreateDate().format(dateFormat),
                     transaction.getEid(),
@@ -73,11 +74,8 @@ public class TransactionService {
                                 transaction.getBulkId(),
                                 transaction.getCreateDate().format(dateFormat),
                                 transaction.getEid(),
-                                transaction.getResult(),
-                                transaction.getResultDate() != null ? transaction.getResultDate().format(dateFormat) : null,
                                 transaction.getSource(),
-                                transaction.getStatus(),
-                                transaction.getHtml()
+                                transaction.getStatus()
                         ))
                 .collect(Collectors.toList());
     }

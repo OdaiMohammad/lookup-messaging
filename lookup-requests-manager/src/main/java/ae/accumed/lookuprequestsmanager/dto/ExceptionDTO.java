@@ -16,4 +16,5 @@ public class ExceptionDTO {
     private String exceptionMessage;
     private String emiratesId;
     private String facility;
+    private Integer transactionId;
 }

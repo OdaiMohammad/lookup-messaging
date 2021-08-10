@@ -46,7 +46,8 @@ public class ExceptionService {
                     exception.getExceptionTrace(),
                     exception.getExceptionMessage(),
                     exception.getEmiratesId(),
-                    exception.getFacility());
+                    exception.getFacility(),
+                    exception.getTransactionId());
         }
         return null;
     }
@@ -68,7 +69,8 @@ public class ExceptionService {
                                 exception.getExceptionTrace(),
                                 exception.getExceptionMessage(),
                                 exception.getEmiratesId(),
-                                exception.getFacility()
+                                exception.getFacility(),
+                                exception.getTransactionId()
                         ))
                 .collect(Collectors.toList());
     }

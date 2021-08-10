@@ -4,7 +4,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -16,6 +15,7 @@ public class Exceptions {
     private String exceptionMessage;
     private String emiratesId;
     private String facility;
+    private Integer transactionId;
 
     @Id
     @Basic
@@ -94,5 +94,15 @@ public class Exceptions {
     @Override
     public int hashCode() {
         return Objects.hash(id, exceptionDate, exceptionTrace, exceptionMessage, emiratesId, facility);
+    }
+
+    @Basic
+    @Column(name = "transaction_id")
+    public Integer getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(Integer transactionId) {
+        this.transactionId = transactionId;
     }
 }

@@ -2,6 +2,7 @@ package ae.accumed.lookuprequestsmanager.controller;
 
 import ae.accumed.lookuprequestsmanager.dto.TransactionDTO;
 import ae.accumed.lookuprequestsmanager.dto.TransactionDataTableDTO;
+import ae.accumed.lookuprequestsmanager.dto.TransactionDetailsDTO;
 import ae.accumed.lookuprequestsmanager.service.TransactionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class TransactionController {
 
     @GetMapping("/{transactionId}")
     public String transactionDetails(@PathVariable int transactionId, Model model) {
-        TransactionDTO transaction = transactionService.findById(transactionId);
+        TransactionDetailsDTO transaction = transactionService.findById(transactionId);
         model.addAttribute("data", transaction);
         return "transaction_details";
     }
