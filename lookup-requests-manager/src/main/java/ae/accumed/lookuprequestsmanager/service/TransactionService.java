@@ -53,7 +53,8 @@ public class TransactionService {
                     transaction.getResultDate() != null ? transaction.getResultDate().format(dateFormat) : null,
                     transaction.getSource(),
                     transaction.getStatus(),
-                    transaction.getHtml());
+                    transaction.getHtml(),
+                    transaction.getpType());
         }
         return null;
     }
@@ -75,7 +76,8 @@ public class TransactionService {
                                 transaction.getCreateDate().format(dateFormat),
                                 transaction.getEid(),
                                 transaction.getSource(),
-                                transaction.getStatus()
+                                transaction.getStatus(),
+                                transaction.getpType()
                         ))
                 .collect(Collectors.toList());
     }

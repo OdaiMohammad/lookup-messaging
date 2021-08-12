@@ -1,7 +1,6 @@
 package ae.accumed.lookuprequestsmanager.entities;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -18,6 +17,7 @@ public class Transactions {
     private String status;
     private Account accountByAccountId;
     private String errorMessage;
+    private String pType;
 
     @Id
     @Column(name = "id")
@@ -148,5 +148,15 @@ public class Transactions {
 
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
+    }
+
+    @Basic
+    @Column(name = "p_type")
+    public String getpType() {
+        return pType;
+    }
+
+    public void setpType(String pType) {
+        this.pType = pType;
     }
 }

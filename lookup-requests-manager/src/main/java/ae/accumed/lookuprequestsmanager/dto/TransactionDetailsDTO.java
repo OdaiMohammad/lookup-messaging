@@ -18,4 +18,5 @@ public class TransactionDetailsDTO {
     private String source;
     private String status;
     private String html;
+    private String patientType;
 }

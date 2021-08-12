@@ -19,4 +19,5 @@ public class TransactionDTO {
     private String eid;
     private String source;
     private String status;
+    private String patientType;
 }
