@@ -74,6 +74,7 @@ public class TransactionService {
                                 transaction.getId(),
                                 transaction.getBulkId(),
                                 transaction.getCreateDate().format(dateFormat),
+                                transaction.getResultDate() != null ? transaction.getResultDate().format(dateFormat) : null,
                                 transaction.getEid(),
                                 transaction.getSource(),
                                 transaction.getStatus(),

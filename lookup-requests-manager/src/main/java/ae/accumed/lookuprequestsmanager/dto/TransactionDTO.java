@@ -16,6 +16,7 @@ public class TransactionDTO {
 
     private String bulkId;
     private String createDate;
+    private String resultDate;
     private String eid;
     private String source;
     private String status;
