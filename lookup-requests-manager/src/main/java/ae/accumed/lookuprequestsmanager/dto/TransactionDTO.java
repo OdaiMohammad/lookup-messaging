@@ -13,6 +13,7 @@ import java.sql.Date;
 @NoArgsConstructor
 public class TransactionDTO {
     private int id;
+    private int accountId;
 
     private String bulkId;
     private String createDate;

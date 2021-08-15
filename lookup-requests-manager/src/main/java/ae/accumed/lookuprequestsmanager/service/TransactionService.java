@@ -45,7 +45,9 @@ public class TransactionService {
         Optional<Transactions> transactionsOptional = transactionRepository.findById(id);
         if (transactionsOptional.isPresent()) {
             Transactions transaction = transactionsOptional.get();
-            return new TransactionDetailsDTO(transaction.getId(),
+            return new TransactionDetailsDTO(
+                    transaction.getId(),
+                    transaction.getAccountByAccountId().getId(),
                     transaction.getBulkId(),
                     transaction.getCreateDate().format(dateFormat),
                     transaction.getEid(),
@@ -72,6 +74,7 @@ public class TransactionService {
                 .map(transaction ->
                         new TransactionDTO(
                                 transaction.getId(),
+                                transaction.getAccountByAccountId().getId(),
                                 transaction.getBulkId(),
                                 transaction.getCreateDate().format(dateFormat),
                                 transaction.getResultDate() != null ? transaction.getResultDate().format(dateFormat) : null,

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TransactionDetailsDTO {
     private int id;
+    private int accountId;
 
     private String bulkId;
     private String createDate;
