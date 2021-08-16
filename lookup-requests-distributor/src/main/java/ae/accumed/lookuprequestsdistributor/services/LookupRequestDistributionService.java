@@ -56,8 +56,8 @@ public class LookupRequestDistributionService {
     private String createTopicForAccountIfNotExists(int accountId) {
         ArrayList<Integer> accounts = (ArrayList<Integer>) topics
                 .stream()
-                .filter(topic -> topic.split("-").length == 3 && Character.isDigit(topic.length() - 1))
-                .map(topic -> Integer.parseInt(topic.split("-")[topic.length()-1]))
+                .filter(topic -> Character.isDigit(topic.toCharArray()[topic.length()-1]))
+                .map(topic -> Integer.parseInt(String.valueOf(topic.toCharArray()[topic.length()-1])))
                 .collect(Collectors.toList());
         if (!accounts.contains(accountId)) {
             Account account = accountService.findById(accountId);
