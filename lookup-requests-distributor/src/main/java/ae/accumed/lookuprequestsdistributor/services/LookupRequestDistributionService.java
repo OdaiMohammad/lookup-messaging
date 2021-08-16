@@ -48,6 +48,7 @@ public class LookupRequestDistributionService {
             }
         } else {
             logger.error("Invalid message");
+            logger.error(message.toPrettyString());
         }
 
     }
