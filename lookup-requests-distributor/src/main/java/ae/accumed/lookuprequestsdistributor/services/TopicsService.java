@@ -1,9 +1,6 @@
 package ae.accumed.lookuprequestsdistributor.services;
 
-import org.apache.kafka.clients.admin.AdminClient;
-import org.apache.kafka.clients.admin.CreateTopicsResult;
-import org.apache.kafka.clients.admin.ListTopicsOptions;
-import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.common.KafkaFuture;
 import org.apache.kafka.common.errors.TopicExistsException;
 import org.slf4j.Logger;
@@ -14,10 +11,7 @@ import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -58,9 +52,13 @@ public class TopicsService {
             for (Map.Entry<String, KafkaFuture<Void>> entry : createTopicsResult.values().entrySet()) {
                 try {
                     entry.getValue().get();
-                    logger.info("topic {} created", entry.getKey());
+                    logger.info("Topic {} created", entry.getKey());
                 } catch (TopicExistsException e) {
-                    logger.info(String.format("Topic %s already exists", topicName));
+                    logger.info("Topic {} already exists, will increase partitions if necessary...", topicName);
+                    Map<String, NewPartitions> newPartitionSet = new HashMap<>();
+                    newPartitionSet.put(topicName, NewPartitions.increaseTo(partitions));
+                    adminClient.createPartitions(newPartitionSet);
+                    adminClient.close();
                 }
             }
         } catch (Exception e) {
