@@ -15,6 +15,6 @@
         "table.include.list": "dbo.TRANSACTIONS",
         "producer.override.zipkin.sender.type": "HTTP",
         "producer.override.zipkin.http.endpoint": "http://membership-messaging-zipkin:9411/api/v2/spans",
-        "column.exclude.list": "html"
+        "column.exclude.list": "dbo.TRANSACTIONS.html"
     }
 }
