@@ -48,7 +48,6 @@ public class LookupRequestDistributionService {
             }
         } else {
             logger.error("Invalid message");
-            logger.error(message.toPrettyString());
         }
 
     }
@@ -59,13 +58,13 @@ public class LookupRequestDistributionService {
                 .filter(topic -> Character.isDigit(topic.toCharArray()[topic.length()-1]))
                 .map(topic -> Integer.parseInt(String.valueOf(topic.toCharArray()[topic.length()-1])))
                 .collect(Collectors.toList());
-        if (!accounts.contains(accountId)) {
-            Account account = accountService.findById(accountId);
-            if (account != null) {
-                String topicName = String.format("%s-%s-%s", account.getPayersByPayerId().getPayerCode(), account.getFacilityByFacilityId().getFacilityCode(), accountId);
+        Account account = accountService.findById(accountId);
+        if(account != null) {
+            String topicName = String.format("%s-%s-%s", account.getPayersByPayerId().getPayerCode(), account.getFacilityByFacilityId().getFacilityCode(), accountId);
+            if (!accounts.contains(accountId)) {
                 topicsService.createTopic(topicName);
-                return topicName;
             }
+            return topicName;
         }
         return null;
     }
