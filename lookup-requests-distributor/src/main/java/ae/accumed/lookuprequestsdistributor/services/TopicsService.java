@@ -12,7 +12,6 @@ import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 @Service
 public class TopicsService {
