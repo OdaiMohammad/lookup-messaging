@@ -27,6 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatcher("/**")
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/actuator/prometheus").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
