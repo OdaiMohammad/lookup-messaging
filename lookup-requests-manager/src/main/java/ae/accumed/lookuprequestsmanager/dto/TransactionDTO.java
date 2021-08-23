@@ -16,10 +16,9 @@ public class TransactionDTO {
     private int accountId;
 
     private String bulkId;
-    private String createDate;
-    private String resultDate;
+    private String createResultDate;
     private String eid;
     private String source;
     private String status;
-    private String patientType;
+    private String processTime;
 }

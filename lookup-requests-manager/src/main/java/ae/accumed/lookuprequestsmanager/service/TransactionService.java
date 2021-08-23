@@ -49,14 +49,16 @@ public class TransactionService {
                     transaction.getId(),
                     transaction.getAccountByAccountId().getId(),
                     transaction.getBulkId(),
-                    transaction.getCreateDate().format(dateFormat),
+                    String.format("%s\n%s", transaction.getCreateDate().format(dateFormat),transaction.getResultDate() != null ? transaction.getResultDate().format(dateFormat) : ""),
                     transaction.getEid(),
                     transaction.getResult(),
-                    transaction.getResultDate() != null ? transaction.getResultDate().format(dateFormat) : null,
                     transaction.getSource(),
                     transaction.getStatus(),
                     transaction.getHtml(),
-                    transaction.getpType());
+                    transaction.getpType(),
+                    transaction.getProcessTime() != null ? String.valueOf(transaction.getProcessTime()) : "",
+                    transaction.getErrorMessage(),
+                    transaction.getUserId());
         }
         return null;
     }
@@ -76,12 +78,11 @@ public class TransactionService {
                                 transaction.getId(),
                                 transaction.getAccountByAccountId().getId(),
                                 transaction.getBulkId(),
-                                transaction.getCreateDate().format(dateFormat),
-                                transaction.getResultDate() != null ? transaction.getResultDate().format(dateFormat) : null,
+                                String.format("%s <br> %s", transaction.getCreateDate().format(dateFormat),transaction.getResultDate() != null ? transaction.getResultDate().format(dateFormat) : ""),
                                 transaction.getEid(),
                                 transaction.getSource(),
                                 transaction.getStatus(),
-                                transaction.getpType()
+                                transaction.getProcessTime() != null ? String.valueOf(transaction.getProcessTime()) : ""
                         ))
                 .collect(Collectors.toList());
     }

@@ -28,13 +28,14 @@
         <tr>
             <th>ID</th>
             <th>Account ID</th>
-            <th>Bulk Id</th>
-            <th>Create Date</th>
-            <th>EID</th>
+            <th>Bulk ID</th>
+            <th>User ID</th>
+            <th>Create/Result Date</th>
+            <th>Emirates ID</th>
             <th>Source</th>
-            <th>Result Date</th>
-            <th>Status</th>
+            <th>Process time (ms)</th>
             <th>Patient type</th>
+            <th>Status</th>
         </tr>
         </thead>
         <tbody>
@@ -42,18 +43,23 @@
             <td th:text="${data.id}">Row 1 Data 1</td>
             <td th:text="${data.accountId}">Row 1 Data 1</td>
             <td th:text="${data.bulkId}">Row 1 Data 1</td>
-            <td th:text="${data.createDate}">Row 1 Data 1</td>
+            <td th:text="${data.userId}">Row 1 Data 1</td>
+            <td style="white-space: pre-wrap"  th:text="${data.createResultDate}">Row 1 Data 1</td>
             <td th:text="${data.eid}">Row 1 Data 1</td>
             <td th:text="${data.source}">Row 1 Data 1</td>
-            <td th:text="${data.resultDate}">Row 1 Data 1</td>
-            <td th:text="${data.status}">Row 1 Data 1</td>
+            <td th:text="${data.processTime}">Row 1 Data 1</td>
             <td th:text="${data.patientType}">Row 1 Data 1</td>
+            <td th:text="${data.status}">Row 1 Data 1</td>
         </tr>
         </tbody>
     </table>
     <div style="margin-top: 2.5em">
         <h3>Result:</h3>
         <p th:text="${data.result}"></p>
+    </div>
+    <div style="margin-top: 2.5em">
+        <h3>Error message:</h3>
+        <p th:text="${data.errorMessage}"></p>
     </div>
     <div style="margin-top: 2.5em">
         <h3>HTML:</h3>

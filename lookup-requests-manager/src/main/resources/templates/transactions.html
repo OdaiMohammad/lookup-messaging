@@ -27,12 +27,11 @@
         <tr>
             <th>ID</th>
             <th>Account ID</th>
-            <th>Bulk Id</th>
-            <th>Create Date</th>
-            <th>EID</th>
+            <th>Bulk ID</th>
+            <th>Create/Result Date</th>
+            <th>Emirates ID</th>
             <th>Source</th>
-            <th>Patient type</th>
-            <th>Result Date</th>
+            <th>Process time (ms)</th>
             <th>Status</th>
         </tr>
         </thead>
@@ -46,7 +45,7 @@
             {
                 processing: true,
                 serverSide: true,
-                aaSorting: [ [2,"desc" ]],
+                aaSorting: [ [0,"desc" ]],
                 ajax: {
                     url: '/transaction/api',
                     dataSrc: 'data'
@@ -55,11 +54,10 @@
                     {"data": "id"},
                     {"data": "accountId"},
                     {"data": "bulkId"},
-                    {"data": "createDate"},
+                    {"data": "createResultDate"},
                     {"data": "eid"},
                     {"data": "source"},
-                    {"data": "patientType"},
-                    {"data": "resultDate"},
+                    {"data": "processTime"},
                     {"data": "status"}
                 ]
             }

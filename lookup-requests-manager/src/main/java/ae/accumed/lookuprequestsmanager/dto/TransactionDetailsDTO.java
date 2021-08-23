@@ -12,12 +12,14 @@ public class TransactionDetailsDTO {
     private int accountId;
 
     private String bulkId;
-    private String createDate;
+    private String createResultDate;
     private String eid;
     private String result;
-    private String resultDate;
     private String source;
     private String status;
     private String html;
     private String patientType;
+    private String processTime;
+    private String errorMessage;
+    private String userId;
 }

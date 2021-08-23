@@ -18,6 +18,8 @@ public class Transactions {
     private Account accountByAccountId;
     private String errorMessage;
     private String pType;
+    private String userId;
+    private Integer processTime;
 
     @Id
     @Column(name = "id")
@@ -158,5 +160,25 @@ public class Transactions {
 
     public void setpType(String pType) {
         this.pType = pType;
+    }
+
+    @Basic
+    @Column(name = "user_id")
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    @Basic
+    @Column(name = "process_time")
+    public Integer getProcessTime() {
+        return processTime;
+    }
+
+    public void setProcessTime(Integer processTime) {
+        this.processTime = processTime;
     }
 }
