@@ -1,8 +1,11 @@
 package ae.accumed.lookuprequestsdistributor;
 
+import ae.accumed.lookuprequestsdistributor.dto.TransactionDTO;
 import ae.accumed.lookuprequestsdistributor.services.LookupRequestDistributionService;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +21,8 @@ public class LookupRequestController {
     }
 
     @PostMapping
-    public void transaction(@RequestBody JsonNode transaction) {
-        lookupRequestDistributionService.distributeMessage(transaction);
+    public ResponseEntity<TransactionDTO> transaction(@RequestBody TransactionDTO transaction) {
+        lookupRequestDistributionService.distributeMessage(new ObjectMapper().valueToTree(transaction));
+        return new ResponseEntity<>(transaction, HttpStatus.CREATED);
     }
 }
