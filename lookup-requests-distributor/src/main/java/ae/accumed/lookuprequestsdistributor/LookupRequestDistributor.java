@@ -1,6 +1,10 @@
 package ae.accumed.lookuprequestsdistributor;
 
 import ae.accumed.lookuprequestsdistributor.services.LookupRequestDistributionService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.NullNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +27,14 @@ public class LookupRequestDistributor {
     private void onLookupRequest(String message, Acknowledgment acknowledgment) {
         logger.info("Received message: {}", message);
         try {
-            lookupRequestDistributionService.distributeMessage(message);
-        } catch (Exception e) {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode messageJson = mapper.readTree(message);
+            if (messageJson.get("payload").get("before") instanceof NullNode) {
+                lookupRequestDistributionService.distributeMessage(messageJson.get("payload").get("after"));
+            } else {
+                logger.error("Invalid message");
+            }
+        } catch (JsonProcessingException e) {
             logger.error("Error processing message", e);
         }
         acknowledgment.acknowledge();

@@ -1,10 +1,7 @@
 package ae.accumed.lookuprequestsdistributor.services;
 
 import ae.accumed.lookuprequestsdistributor.entities.Account;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.NullNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,31 +32,23 @@ public class LookupRequestDistributionService {
         topics.addAll(topicsService.listTopics());
     }
 
-    public void distributeMessage(String messageJson) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode message = mapper.readTree(messageJson);
-        if (message.get("payload").get("before") instanceof NullNode) {
-            JsonNode transaction = message.get("payload").get("after");
-            int accountId = transaction.get("account_id").asInt();
-            String topicName = createTopicForAccountIfNotExists(accountId);
-            if (topicName != null) {
-                topics.add(topicName);
-                sendMessage(topicName, transaction);
-            }
-        } else {
-            logger.error("Invalid message");
+    public void distributeMessage(JsonNode transaction) {
+        int accountId = transaction.get("account_id").asInt();
+        String topicName = createTopicForAccountIfNotExists(accountId);
+        if (topicName != null) {
+            topics.add(topicName);
+            sendMessage(topicName, transaction);
         }
-
     }
 
     private String createTopicForAccountIfNotExists(int accountId) {
         ArrayList<Integer> accounts = (ArrayList<Integer>) topics
                 .stream()
-                .filter(topic -> Character.isDigit(topic.toCharArray()[topic.length()-1]))
-                .map(topic -> Integer.parseInt(String.valueOf(topic.toCharArray()[topic.length()-1])))
+                .filter(topic -> Character.isDigit(topic.toCharArray()[topic.length() - 1]))
+                .map(topic -> Integer.parseInt(String.valueOf(topic.toCharArray()[topic.length() - 1])))
                 .collect(Collectors.toList());
         Account account = accountService.findById(accountId);
-        if(account != null) {
+        if (account != null) {
             String topicName = String.format("%s-%s-%s", account.getPayersByPayerId().getPayerCode(), account.getFacilityByFacilityId().getFacilityCode(), accountId);
             if (!accounts.contains(accountId)) {
                 topicsService.createTopic(topicName);
