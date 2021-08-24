@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
+import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +57,7 @@ public class TransactionService {
                     transaction.getStatus(),
                     transaction.getHtml(),
                     transaction.getpType(),
-                    transaction.getProcessTime() != null ? String.valueOf(transaction.getProcessTime()) : "",
+                    transaction.getProcessTime() != null ? formatNumber(transaction.getProcessTime()) : "",
                     transaction.getErrorMessage(),
                     transaction.getUserId());
         }
@@ -82,7 +83,7 @@ public class TransactionService {
                                 transaction.getEid(),
                                 transaction.getSource(),
                                 transaction.getStatus(),
-                                transaction.getProcessTime() != null ? String.valueOf(transaction.getProcessTime()) : ""
+                                transaction.getProcessTime() != null ? formatNumber(transaction.getProcessTime()) : ""
                         ))
                 .collect(Collectors.toList());
     }
@@ -117,5 +118,10 @@ public class TransactionService {
 
             return criteriaBuilder.and(predicate);
         };
+    }
+
+    private String formatNumber(double number) {
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        return formatter.format(number);
     }
 }

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController("/")
 public class LookupRequestController {
 
@@ -21,8 +23,10 @@ public class LookupRequestController {
     }
 
     @PostMapping
-    public ResponseEntity<TransactionDTO> transaction(@RequestBody TransactionDTO transaction) {
-        lookupRequestDistributionService.distributeMessage(new ObjectMapper().valueToTree(transaction));
-        return new ResponseEntity<>(transaction, HttpStatus.CREATED);
+    public ResponseEntity<Object> transaction(@RequestBody List<TransactionDTO> transactions) {
+        for (TransactionDTO transaction : transactions) {
+            lookupRequestDistributionService.distributeMessage(new ObjectMapper().valueToTree(transaction));
+        }
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
