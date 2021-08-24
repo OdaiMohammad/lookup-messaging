@@ -45,7 +45,7 @@ public class LookupRequestDistributionService {
         ArrayList<Integer> accounts = (ArrayList<Integer>) topics
                 .stream()
                 .filter(topic -> Character.isDigit(topic.toCharArray()[topic.length() - 1]))
-                .map(topic -> Integer.parseInt(String.valueOf(topic.toCharArray()[topic.length() - 1])))
+                .map(topic -> Integer.parseInt(topic.split("-")[topic.split("-").length-1]))
                 .collect(Collectors.toList());
         Account account = accountService.findById(accountId);
         if (account != null) {
