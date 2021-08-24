@@ -16,6 +16,9 @@ services:
       - lookup_zookeeper_log:/var/lib/zookeeper/log
     networks:
       - lookup
+    logging:
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -36,55 +39,9 @@ services:
       - lookup_kafka_data:/var/lib/kafka/data
     networks:
       - lookup
-
-  schema:
-    image: confluentinc/cp-schema-registry:latest
-    container_name: schema
-    restart: always
-    depends_on:
-      - zookeeper
-    environment:
-      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper:2181
-      SCHEMA_REGISTRY_HOST_NAME: localhost
-      SCHEMA_REGISTRY_LISTENERS: "http://localhost:8085"
-    ports:
-      - 8085:8085
-    networks:
-      - lookup
-
-  connect:
-    image: confluentinc/cp-kafka-connect:latest
-    container_name: connect
-    restart: always
-    environment:
-      CONNECT_BOOTSTRAP_SERVERS: "kafka:19092"
-      CONNECT_REST_PORT: 28082
-      CONNECT_GROUP_ID: "connect-cluster"
-      CONNECT_CONFIG_STORAGE_TOPIC: "connect-cluster-config"
-      CONNECT_OFFSET_STORAGE_TOPIC: "connect-cluster-offset"
-      CONNECT_STATUS_STORAGE_TOPIC: "connect-cluster-status"
-      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
-      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
-      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
-      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: "http://schema:8085"
-      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: "http://schema:8085"
-      CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_PLUGIN_PATH: /usr/share/java,/etc/kafka-connect/jars
-      CONNECT_ZOOKEEPER_CONNECT: 'zookeeper:2181'
-      CONNECT_REST_ADVERTISED_HOST_NAME: "localhost"
-      CONNECT_PRODUCER_INTERCEPTOR_CLASSES: brave.kafka.interceptor.TracingProducerInterceptor
-      CONNECT_CONSUMER_INTERCEPTOR_CLASSES: brave.kafka.interceptor.TracingConsumerInterceptor
-      CONNECT_CONNECTOR_CLIENT_CONFIG_OVERRIDE_POLICY: All
-    ports:
-      - 8083:8083
-      - 28082:28082
-    volumes:
-      - $PWD/kafka-connect-jars:/etc/kafka-connect/jars
-    networks:
-      - lookup
+    logging:
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
   kafdrop:
     image: obsidiandynamics/kafdrop
@@ -98,6 +55,9 @@ services:
       - kafka
     networks:
       - lookup
+    logging:
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
   zipkin:
     image: openzipkin/zipkin
@@ -109,6 +69,9 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     networks:
       - lookup
+    logging:
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
   lookup-requests-distributor:
     build: lookup-requests-distributor/.
@@ -123,6 +86,9 @@ services:
       - kafka
     networks:
       - lookup
+    logging:
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
   lookup-requests-manager:
     build: lookup-requests-manager/.
@@ -133,6 +99,9 @@ services:
       - 9003:8080
     networks:
       - lookup
+    logging:
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
       
 volumes:
   lookup_zookeeper_data:
