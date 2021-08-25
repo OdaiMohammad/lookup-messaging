@@ -34,18 +34,18 @@ public class LookupRequestDistributionService {
 
     public void distributeMessage(JsonNode transaction) {
         int accountId = transaction.get("account_id").asInt();
-        String topicName = createTopicForAccountIfNotExists(accountId);
+        String topicName = createTopicOrIncreasePartitionsForAccountIfNecessary(accountId);
         if (topicName != null) {
             topics.add(topicName);
             sendMessage(topicName, transaction);
         }
     }
 
-    private String createTopicForAccountIfNotExists(int accountId) {
+    private String createTopicOrIncreasePartitionsForAccountIfNecessary(int accountId) {
         ArrayList<Integer> accounts = (ArrayList<Integer>) topics
                 .stream()
                 .filter(topic -> Character.isDigit(topic.toCharArray()[topic.length() - 1]))
-                .map(topic -> Integer.parseInt(topic.split("-")[topic.split("-").length-1]))
+                .map(topic -> Integer.parseInt(topic.split("-")[topic.split("-").length - 1]))
                 .collect(Collectors.toList());
         Account account = accountService.findById(accountId);
         if (account != null) {
@@ -53,6 +53,7 @@ public class LookupRequestDistributionService {
             if (!accounts.contains(accountId)) {
                 topicsService.createTopic(topicName);
             }
+            topicsService.increasePartitionsIfNecessary(topicName);
             return topicName;
         }
         return null;

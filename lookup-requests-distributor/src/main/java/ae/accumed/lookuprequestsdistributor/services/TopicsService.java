@@ -1,6 +1,9 @@
 package ae.accumed.lookuprequestsdistributor.services;
 
-import org.apache.kafka.clients.admin.*;
+import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.CreateTopicsResult;
+import org.apache.kafka.clients.admin.NewPartitions;
+import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.common.KafkaFuture;
 import org.apache.kafka.common.errors.TopicExistsException;
 import org.slf4j.Logger;
@@ -9,9 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaAdmin;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class TopicsService {
@@ -60,6 +66,29 @@ public class TopicsService {
             }
         } catch (Exception e) {
             logger.info(String.format("Error creating topic %s", topicName), e);
+        }
+    }
+
+    @Async
+    public void increasePartitionsIfNecessary(String topicName) {
+        try {
+            AtomicInteger topicCurrentPartitionsCount = new AtomicInteger();
+            AdminClient adminClient = AdminClient.create(kafkaAdmin.getConfigurationProperties());
+
+            adminClient.describeTopics(Collections.singletonList(topicName)).all().get().forEach((topic, description) -> {
+                topicCurrentPartitionsCount.set(description.partitions().size());
+            });
+
+            if (topicCurrentPartitionsCount.get() != partitions) {
+                Map<String, NewPartitions> newPartitionsMap = new HashMap<>();
+                newPartitionsMap.put(topicName, NewPartitions.increaseTo(partitions));
+
+                adminClient.createPartitions(newPartitionsMap).all().get();
+
+                logger.info("Increased partitions of topic {} to {}", topicName, String.valueOf(partitions));
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            logger.warn("Failed to increase partitions for topic {}. Caused by: {}", topicName, e.getMessage());
         }
     }
 }
