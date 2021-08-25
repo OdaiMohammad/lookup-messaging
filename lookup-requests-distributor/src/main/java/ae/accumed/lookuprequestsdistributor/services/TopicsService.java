@@ -34,8 +34,6 @@ public class TopicsService {
         try {
             AdminClient adminClient = AdminClient.create(kafkaAdmin.getConfigurationProperties());
 
-            ListTopicsOptions listTopicsOptions = new ListTopicsOptions();
-            listTopicsOptions.listInternal(true);
             return adminClient.listTopics().names().get();
         } catch (Exception e) {
             logger.error("Error getting list of topics", e);

@@ -5,16 +5,3 @@ echo "Building projects..."
 
 echo "Spinning up services..."
 docker-compose up -d --build
-
-echo "Waiting for Kafka Connect to be ready..."
-
-
-./wait-for http://localhost:28082/ -- echo "Kafka Connect is up"
-
-echo "Creating MSSQL connector..."
-
-curl -sS -X POST -H "Content-Type: application/json" --data @kafka-connect-mssql-source-config.json localhost:28082/connectors > /dev/null
-
-echo "Created MSSQL connector"
-
-echo "System is ready to recive messages"
