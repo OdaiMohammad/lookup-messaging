@@ -188,7 +188,7 @@ services:
     restart: always
     networks:
       stg0:
-        - ipv4_address: 172.30.0.53
+        ipv4_address: 172.30.0.53
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
