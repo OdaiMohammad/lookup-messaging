@@ -74,7 +74,7 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: "lookup-zookeeper-1:22181"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-      EXTRA_ARGS: -javaagent:/home/appuser/jmx_prometheus_javaagent-0.16.0.jar=1234:/home/appuser/kafka_broker.yml
+      EXTRA_ARGS: -javaagent:"/home/appuser/jmx_prometheus_javaagent-0.16.0.jar=1234:/home/appuser/kafka_broker.yml"
     depends_on:
       - lookup-zookeeper-1
       - lookup-zookeeper-2
