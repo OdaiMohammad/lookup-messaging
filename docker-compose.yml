@@ -74,7 +74,7 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: "lookup-zookeeper-1:22181"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-#      EXTRA_ARGS: -javaagent:/opt/prometheus/jmx_prometheus_javaagent-0.15.0.jar=1234:/opt/prometheus/kafka_broker.yml
+      EXTRA_ARGS: -javaagent:/opt/prometheus/jmx_prometheus_javaagent-0.16.0.jar=1234:/opt/prometheus/kafka_broker.yml
     depends_on:
       - lookup-zookeeper-1
       - lookup-zookeeper-2
@@ -82,7 +82,7 @@ services:
     volumes:
       - membership_messaging_kafka_1_data:/var/lib/kafka/data
       - $PWD/config/jmx-exporter/kafka-broker/kafka_broker.yml:/opt/prometheus/kafka_broker.yml
-      - $PWD config/jmx-exporter/jmx_prometheus_javaagent-0.15.0.jar:/opt/prometheus/jmx_prometheus_javaagent-0.15.0.jar
+      - $PWD config/jmx-exporter/jmx_prometheus_javaagent-0.16.0.jar:/opt/prometheus/jmx_prometheus_javaagent-0.16.0.jar
     networks:
       - stg0
     logging:
