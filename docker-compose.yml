@@ -74,12 +74,15 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: "lookup-zookeeper-1:22181"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      EXTRA_ARGS: -javaagent:/opt/prometheus/jmx_prometheus_javaagent-0.15.0.jar=1234:/opt/prometheus/kafka_broker.yml
     depends_on:
       - lookup-zookeeper-1
       - lookup-zookeeper-2
       - lookup-zookeeper-3
     volumes:
       - membership_messaging_kafka_1_data:/var/lib/kafka/data
+      - $PWD/config/jmx-exporter/kafka-broker/kafka_broker.yml:/opt/prometheus/kafka_broker.yml
+      - $PWD config/jmx-exporter/jmx_prometheus_javaagent-0.15.0.jar:/opt/prometheus/jmx_prometheus_javaagent-0.15.0.jar
     networks:
       - stg0
     logging:
@@ -96,12 +99,15 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: "lookup-zookeeper-2:32181"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      EXTRA_ARGS: -javaagent:/opt/prometheus/jmx_prometheus_javaagent-0.15.0.jar=1234:/opt/prometheus/kafka_broker.yml
     depends_on:
       - lookup-zookeeper-1
       - lookup-zookeeper-2
       - lookup-zookeeper-3
     volumes:
       - membership_messaging_kafka_2_data:/var/lib/kafka/data
+      - $PWD/config/jmx-exporter/kafka-broker/kafka_broker.yml:/opt/prometheus/kafka_broker.yml
+      - $PWD config/jmx-exporter/jmx_prometheus_javaagent-0.15.0.jar:/opt/prometheus/jmx_prometheus_javaagent-0.15.0.jar
     networks:
       - stg0
     logging:
@@ -118,12 +124,15 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: "lookup-zookeeper-3:42181"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      EXTRA_ARGS: -javaagent:/opt/prometheus/jmx_prometheus_javaagent-0.15.0.jar=1234:/opt/prometheus/kafka_broker.yml
     depends_on:
       - lookup-zookeeper-1
       - lookup-zookeeper-2
       - lookup-zookeeper-3
     volumes:
       - membership_messaging_kafka_3_data:/var/lib/kafka/data
+      - $PWD/config/jmx-exporter/kafka-broker/kafka_broker.yml:/opt/prometheus/kafka_broker.yml
+      - $PWD config/jmx-exporter/jmx_prometheus_javaagent-0.15.0.jar:/opt/prometheus/jmx_prometheus_javaagent-0.15.0.jar
     networks:
       - stg0
     logging:
