@@ -10,4 +10,5 @@ public class TransactionDTO {
     private String eid;
     private String status;
     private String p_type;
+    private String user_id;
 }
