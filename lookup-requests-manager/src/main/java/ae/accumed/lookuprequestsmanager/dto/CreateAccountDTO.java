@@ -35,4 +35,6 @@ public class CreateAccountDTO {
 //    private String repeatPassword;
 
     private Boolean isActive;
+    private Boolean isSuspended;
+    private String errorMessage;
 }
