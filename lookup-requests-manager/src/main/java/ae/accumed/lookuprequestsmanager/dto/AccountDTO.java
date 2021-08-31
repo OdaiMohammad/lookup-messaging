@@ -13,4 +13,6 @@ public class AccountDTO {
     private String userName;
     private FacilityDTO facility;
     private PayerDTO payer;
+    private String errorMessage;
+    private Boolean isSuspended;
 }

@@ -1,10 +1,6 @@
 package ae.accumed.lookuprequestsmanager.controller;
 
-import ae.accumed.lookuprequestsmanager.dto.AccountDTO;
 import ae.accumed.lookuprequestsmanager.dto.CreateAccountDTO;
-import ae.accumed.lookuprequestsmanager.dto.FacilityDTO;
-import ae.accumed.lookuprequestsmanager.dto.PayerDTO;
-import ae.accumed.lookuprequestsmanager.entities.Account;
 import ae.accumed.lookuprequestsmanager.service.AccountService;
 import ae.accumed.lookuprequestsmanager.service.FacilityService;
 import ae.accumed.lookuprequestsmanager.service.PayerService;
@@ -16,9 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/account")
@@ -29,7 +22,7 @@ public class AccountsController {
     private final FacilityService facilityService;
 
     @Autowired
-    public AccountsController(AccountService accountService,PayerService payerService,FacilityService facilityService) {
+    public AccountsController(AccountService accountService, PayerService payerService, FacilityService facilityService) {
         this.accountService = accountService;
         this.payerService = payerService;
         this.facilityService = facilityService;
@@ -42,15 +35,29 @@ public class AccountsController {
     }
 
     @PostMapping("/activate/{accountId}")
-    public String activateAccount(@PathVariable int accountId, Model model){
+    public String activateAccount(@PathVariable int accountId, Model model) {
         accountService.activateAccount(accountId);
         model.addAttribute("data", accountService.findAll());
         return "redirect:/account";
     }
 
     @PostMapping("/deactivate/{accountId}")
-    public String deactivateAccount(@PathVariable int accountId, Model model){
+    public String deactivateAccount(@PathVariable int accountId, Model model) {
         accountService.deactivateAccount(accountId);
+        model.addAttribute("data", accountService.findAll());
+        return "redirect:/account";
+    }
+
+    @PostMapping("/unsuspend/{accountId}")
+    public String unsuspendAccount(@PathVariable int accountId, Model model) {
+        accountService.unsuspendAccount(accountId);
+        model.addAttribute("data", accountService.findAll());
+        return "redirect:/account";
+    }
+
+    @PostMapping("/suspend/{accountId}")
+    public String suspendAccount(@PathVariable int accountId, Model model) {
+        accountService.suspendAccount(accountId);
         model.addAttribute("data", accountService.findAll());
         return "redirect:/account";
     }
@@ -64,8 +71,8 @@ public class AccountsController {
     }
 
     @PostMapping("/new")
-    public String createAccount(@Valid  @ModelAttribute("account") CreateAccountDTO createAccountDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        if(bindingResult.hasErrors()) {
+    public String createAccount(@Valid @ModelAttribute("account") CreateAccountDTO createAccountDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
             model.addAttribute("account", createAccountDTO);
             model.addAttribute("payers", payerService.findAll());
             model.addAttribute("facilities", facilityService.findAll());
