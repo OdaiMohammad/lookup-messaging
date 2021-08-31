@@ -50,7 +50,7 @@ public class TransactionService {
                     transaction.getId(),
                     transaction.getAccountByAccountId().getId(),
                     transaction.getBulkId(),
-                    String.format("%s\n%s", transaction.getCreateDate().format(dateFormat),transaction.getResultDate() != null ? transaction.getResultDate().format(dateFormat) : ""),
+                    String.format("%s\n%s", transaction.getCreateDate().format(dateFormat), transaction.getResultDate() != null ? transaction.getResultDate().format(dateFormat) : ""),
                     transaction.getEid(),
                     transaction.getResult(),
                     transaction.getSource(),
@@ -59,7 +59,8 @@ public class TransactionService {
                     transaction.getpType(),
                     transaction.getProcessTime() != null ? formatNumber(transaction.getProcessTime()) : "",
                     transaction.getErrorMessage(),
-                    transaction.getUserId());
+                    transaction.getUserId(),
+                    transaction.getAccountByAccountId().getPayersByPayerId().getPayerName());
         }
         return null;
     }
@@ -79,11 +80,12 @@ public class TransactionService {
                                 transaction.getId(),
                                 transaction.getAccountByAccountId().getId(),
                                 transaction.getBulkId(),
-                                String.format("%s <br> %s", transaction.getCreateDate().format(dateFormat),transaction.getResultDate() != null ? transaction.getResultDate().format(dateFormat) : ""),
+                                String.format("%s <br> %s", transaction.getCreateDate().format(dateFormat), transaction.getResultDate() != null ? transaction.getResultDate().format(dateFormat) : ""),
                                 transaction.getEid(),
                                 transaction.getSource(),
                                 transaction.getStatus(),
-                                transaction.getProcessTime() != null ? formatNumber(transaction.getProcessTime()) : ""
+                                transaction.getProcessTime() != null ? formatNumber(transaction.getProcessTime()) : "",
+                                transaction.getAccountByAccountId().getPayersByPayerId().getPayerName()
                         ))
                 .collect(Collectors.toList());
     }

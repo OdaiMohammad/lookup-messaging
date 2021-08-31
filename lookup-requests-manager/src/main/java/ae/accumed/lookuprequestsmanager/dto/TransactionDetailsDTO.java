@@ -22,4 +22,5 @@ public class TransactionDetailsDTO {
     private String processTime;
     private String errorMessage;
     private String userId;
+    private String payerName;
 }

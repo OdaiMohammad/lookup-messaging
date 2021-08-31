@@ -21,4 +21,5 @@ public class TransactionDTO {
     private String source;
     private String status;
     private String processTime;
+    private String payerName;
 }
