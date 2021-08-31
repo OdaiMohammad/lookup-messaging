@@ -53,41 +53,41 @@
                 </option>
             </select>
         </div>
-        <span class="validationError alert alert-danger"
-              role="alert"
-              th:if="${#fields.hasErrors('userName')}"
-              th:errors="*{userName}">userName Error</span>
-        <div class="form-group">
-            <label for="userName"></label>
-            <input type="text" class="form-control " id="userName" name="userName" aria-describedby="userNameHelp" th:value="${account.getUserName()}"
-                   placeholder="Username">
-            <small id="userNameHelp" class="form-text text-muted">Enter the username for this account</small>
-        </div>
-        <span class="validationError alert alert-danger"
-              role="alert"
-              th:if="${#fields.hasErrors('password')}"
-              th:errors="*{password}">password Error</span>
-        <span class="validationError alert alert-danger"
-              role="alert"
-              th:if="${#fields.hasGlobalErrors()}"
-              th:each="error : ${#fields.errors('global')}"
-              th:text="${error}">password match Error</span>
-        <div class="form-group">
-            <label for="password"></label>
-            <input type="password" class="form-control " id="password" name="password" aria-describedby="passwordHelp"
-                   placeholder="Password">
-            <small id="passwordHelp" class="form-text text-muted">Enter the password for this account</small>
-        </div>
-        <span class="validationError alert alert-danger"
-              role="alert"
-              th:if="${#fields.hasErrors('repeatPassword')}"
-              th:errors="*{repeatPassword}">repeatPassword Error</span>
-        <div class="form-group">
-            <label for="repeatPassword"></label>
-            <input type="password" class="form-control " id="repeatPassword" name="repeatPassword"
-                   aria-describedby="repeatPasswordHelp" placeholder="Confirm Password">
-            <small id="repeatPasswordHelp" class="form-text text-muted">Confirm the password for this account</small>
-        </div>
+<!--        <span class="validationError alert alert-danger"-->
+<!--              role="alert"-->
+<!--              th:if="${#fields.hasErrors('userName')}"-->
+<!--              th:errors="*{userName}">userName Error</span>-->
+<!--        <div class="form-group">-->
+<!--            <label for="userName"></label>-->
+<!--            <input type="text" class="form-control " id="userName" name="userName" aria-describedby="userNameHelp" th:value="${account.getUserName()}"-->
+<!--                   placeholder="Username">-->
+<!--            <small id="userNameHelp" class="form-text text-muted">Enter the username for this account</small>-->
+<!--        </div>-->
+<!--        <span class="validationError alert alert-danger"-->
+<!--              role="alert"-->
+<!--              th:if="${#fields.hasErrors('password')}"-->
+<!--              th:errors="*{password}">password Error</span>-->
+<!--        <span class="validationError alert alert-danger"-->
+<!--              role="alert"-->
+<!--              th:if="${#fields.hasGlobalErrors()}"-->
+<!--              th:each="error : ${#fields.errors('global')}"-->
+<!--              th:text="${error}">password match Error</span>-->
+<!--        <div class="form-group">-->
+<!--            <label for="password"></label>-->
+<!--            <input type="password" class="form-control " id="password" name="password" aria-describedby="passwordHelp"-->
+<!--                   placeholder="Password">-->
+<!--            <small id="passwordHelp" class="form-text text-muted">Enter the password for this account</small>-->
+<!--        </div>-->
+<!--        <span class="validationError alert alert-danger"-->
+<!--              role="alert"-->
+<!--              th:if="${#fields.hasErrors('repeatPassword')}"-->
+<!--              th:errors="*{repeatPassword}">repeatPassword Error</span>-->
+<!--        <div class="form-group">-->
+<!--            <label for="repeatPassword"></label>-->
+<!--            <input type="password" class="form-control " id="repeatPassword" name="repeatPassword"-->
+<!--                   aria-describedby="repeatPasswordHelp" placeholder="Confirm Password">-->
+<!--            <small id="repeatPasswordHelp" class="form-text text-muted">Confirm the password for this account</small>-->
+<!--        </div>-->
         <div class="form-check" style="margin-bottom: 8px">
             <input type="checkbox" th:field="${account.isActive}" class="form-check-input" id="isActive" name="isActive">
             <label class="form-check-label" for="isActive">Account is active</label>

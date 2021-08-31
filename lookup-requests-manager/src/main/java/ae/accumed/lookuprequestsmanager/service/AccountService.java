@@ -100,8 +100,8 @@ public class AccountService {
         Payers payer = payerService.findById(createAccountDTO.getPayerId());
         Facility facility = facilityService.findById(createAccountDTO.getFacilityId());
         Account account = new Account();
-        account.setUserName(createAccountDTO.getUserName());
-        account.setPassword(createAccountDTO.getPassword());
+//        account.setUserName(createAccountDTO.getUserName());
+//        account.setPassword(createAccountDTO.getPassword());
         account.setIsactive(createAccountDTO.getIsActive());
         account.setPayersByPayerId(payer);
         account.setFacilityByFacilityId(facility);
