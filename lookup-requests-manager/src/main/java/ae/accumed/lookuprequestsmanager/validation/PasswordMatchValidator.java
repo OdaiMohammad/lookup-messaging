@@ -13,12 +13,10 @@ public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch
     }
 
     public boolean isValid(CreateAccountDTO createAccountDTO, ConstraintValidatorContext c) {
-//        String plainPassword = createAccountDTO.getPassword();
-//        String repeatPassword = createAccountDTO.getRepeatPassword();
-//
-//        return plainPassword != null && plainPassword.equals(repeatPassword);
+        String plainPassword = createAccountDTO.getPassword();
+        String repeatPassword = createAccountDTO.getRepeatPassword();
 
-        return true;
+        return plainPassword != null && plainPassword.equals(repeatPassword);
     }
 
 }

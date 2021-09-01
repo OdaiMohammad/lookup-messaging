@@ -22,17 +22,17 @@ public class CreateAccountDTO {
     @Min(message = "Please select a facility", value = 1)
     private int facilityId;
 
-//    @NotNull(message = "Please enter a username for this account")
-//    @NotEmpty(message = "Please enter a username for this account")
-//    private String userName;
-//
-//    @NotNull(message = "Please enter a password for this account")
-//    @NotEmpty(message = "Please enter a password for this account")
-//    private String password;
-//
-//    @NotNull(message = "Please confirm the password for this account")
-//    @NotEmpty(message = "Please confirm the a password for this account")
-//    private String repeatPassword;
+    @NotNull(message = "Please enter a username for this account")
+    @NotEmpty(message = "Please enter a username for this account")
+    private String userName;
+
+    @NotNull(message = "Please enter a password for this account")
+    @NotEmpty(message = "Please enter a password for this account")
+    private String password;
+
+    @NotNull(message = "Please confirm the password for this account")
+    @NotEmpty(message = "Please confirm the a password for this account")
+    private String repeatPassword;
 
     private Boolean isActive;
 }
