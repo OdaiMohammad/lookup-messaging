@@ -11,4 +11,7 @@ public class TransactionDTO {
     private String status;
     private String p_type;
     private String user_id;
+    private String user_name;
+    private String password;
+    private boolean by_account;
 }

@@ -2,8 +2,6 @@ package ae.accumed.lookuprequestsdistributor.services;
 
 import ae.accumed.lookuprequestsdistributor.entities.Account;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -15,9 +13,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class LookupRequestDistributionService {
-    private static Logger logger = LoggerFactory.getLogger(LookupRequestDistributionService.class);
-
-
     private Set<String> topics;
     private final TopicsService topicsService;
     private final AccountService accountService;
@@ -34,13 +29,19 @@ public class LookupRequestDistributionService {
 
     public void distributeMessage(JsonNode transaction) {
         int accountId = transaction.get("account_id").asInt();
-        String topicName = createTopicOrIncreasePartitionsForAccountIfNecessary(accountId);
+        String accountTopicName = createTopicOrIncreasePartitionsForAccountIfNecessary(accountId);
+        if (accountTopicName != null) {
+            topics.add(accountTopicName);
+            sendMessage(accountTopicName, transaction);
+        }
+        String topicName = createTopicOrIncreasePartitionsIfNecessary(accountId);
         if (topicName != null) {
             topics.add(topicName);
             sendMessage(topicName, transaction);
         }
     }
 
+    @Deprecated
     private String createTopicOrIncreasePartitionsForAccountIfNecessary(int accountId) {
         ArrayList<Integer> accounts = (ArrayList<Integer>) topics
                 .stream()
@@ -53,6 +54,18 @@ public class LookupRequestDistributionService {
             if (!accounts.contains(accountId)) {
                 topicsService.createTopic(topicName);
             }
+            topicsService.increasePartitionsIfNecessary(topicName);
+            return topicName;
+        }
+        return null;
+    }
+
+    private String createTopicOrIncreasePartitionsIfNecessary(int accountId) {
+        Account account = accountService.findById(accountId);
+        if (account != null) {
+            String topicName = String.format("%s", account.getPayersByPayerId().getPayerCode());
+            if (!topics.contains(topicName))
+                topicsService.createTopic(topicName);
             topicsService.increasePartitionsIfNecessary(topicName);
             return topicName;
         }
