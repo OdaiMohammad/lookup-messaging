@@ -20,4 +20,16 @@ public class ContainerInfoService {
     public ArrayList<ContainerInfo> getContainersInfoByName(String name) {
         return containerInfoRepository.getContainersInfoByName(name);
     }
+
+    public void restartContainer(String containerId) {
+        containerInfoRepository.restartContainer(containerId);
+    }
+
+    public void startContainer(String containerId) {
+        containerInfoRepository.startContainer(containerId);
+    }
+
+    public void stopContainer(String containerId) {
+        containerInfoRepository.stopContainer(containerId);
+    }
 }

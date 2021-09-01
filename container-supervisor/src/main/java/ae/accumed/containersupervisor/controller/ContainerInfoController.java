@@ -21,4 +21,22 @@ public class ContainerInfoController {
     public ResponseEntity<Object> list(@RequestParam(defaultValue = "") String name) {
         return new ResponseEntity<>(containerInfoService.getContainersInfoByName(name), HttpStatus.OK);
     }
+
+    @PostMapping("/restart/{containerId}")
+    public ResponseEntity<Object> restart(@PathVariable String containerId) {
+        containerInfoService.restartContainer(containerId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/start/{containerId}")
+    public ResponseEntity<Object> start(@PathVariable String containerId) {
+        containerInfoService.startContainer(containerId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/stop/{containerId}")
+    public ResponseEntity<Object> stop(@PathVariable String containerId) {
+        containerInfoService.stopContainer(containerId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

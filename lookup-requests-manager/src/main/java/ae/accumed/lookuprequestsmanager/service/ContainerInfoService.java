@@ -19,4 +19,16 @@ public class ContainerInfoService {
     public ArrayList<ContainerInfoDTO> getContainerInfo(String name) {
         return containerInfoRepository.getContainerInfo(name);
     }
+
+    public void restartContainer(String containerId) {
+        containerInfoRepository.restartContainer(containerId);
+    }
+
+    public void startContainer(String containerId) {
+        containerInfoRepository.startContainer(containerId);
+    }
+
+    public void stopContainer(String containerId) {
+        containerInfoRepository.stopContainer(containerId);
+    }
 }

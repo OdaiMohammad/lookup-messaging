@@ -29,4 +29,16 @@ public class ContainerInfoRepository {
         });
         return response.getBody();
     }
+
+    public void restartContainer(String containerId) {
+        restTemplate.postForObject(String.format("http://%s/containers/restart/%s", supervisorHost, containerId), null, Void.class);
+    }
+
+    public void stopContainer(String containerId) {
+        restTemplate.postForObject(String.format("http://%s/containers/stop/%s", supervisorHost, containerId), null, Void.class);
+    }
+
+    public void startContainer(String containerId) {
+        restTemplate.postForObject(String.format("http://%s/containers/start/%s", supervisorHost, containerId), null, Void.class);
+    }
 }
