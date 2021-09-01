@@ -167,9 +167,21 @@ services:
     restart: always
     environment:
       SPRING_DATASOURCE_URL: "jdbc:sqlserver://mssql:1433;database=LookUp_DB"
+      SUPERVISOR_SERVER_ADDRESS: "container-supervisor:8080"
     networks:
       stg0:
         ipv4_address: 172.30.0.51
+    logging:
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+  container-supervisor:
+    build: container-supervisor/.
+    image: container-supervisor:latest
+    container_name: container-supervisor
+    restart: always
+    networks:
+      - stg0
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
