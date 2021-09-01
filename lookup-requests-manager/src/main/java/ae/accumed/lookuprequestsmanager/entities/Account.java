@@ -13,8 +13,6 @@ public class Account {
     private Facility facilityByFacilityId;
     private Payers payersByPayerId;
     private Collection<Transactions> transactionsById;
-    private String errorMessage;
-    private Boolean isSuspended;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -100,25 +98,5 @@ public class Account {
 
     public void setTransactionsById(Collection<Transactions> transactionsById) {
         this.transactionsById = transactionsById;
-    }
-
-    @Basic
-    @Column(name = "error_message")
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
-
-    @Basic
-    @Column(name = "is_suspended")
-    public Boolean getSuspended() {
-        return isSuspended;
-    }
-
-    public void setSuspended(Boolean suspended) {
-        isSuspended = suspended;
     }
 }

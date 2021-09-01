@@ -32,7 +32,6 @@
             <th>Username</th>
             <th>Facility code</th>
             <th>Payer code</th>
-            <th>Error Message</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -42,36 +41,13 @@
             <td th:text="${account.userName}">Row 1 Data 1</td>
             <td th:text="${account.facility.facilityCode}">Row 1 Data 1</td>
             <td th:text="${account.payer.payerCode}">Row 1 Data 1</td>
-            <td th:text="${account.errorMessage}">Row 1 Data 1</td>
             <td>
-                <table>
-                    <tbody>
-                    <tr>
-                        <td>
-                            <form th:if="${account.isActive}" method="POST"
-                                  th:action="@{/account/deactivate/{accountId}(accountId=${account.id})}">
-                                <input type="submit" value="Deactivate" class="btn btn-danger" style="width: 100px">
-                            </form>
-                            <form th:if="${!account.isActive}" method="POST"
-                                  th:action="@{/account/activate/{accountId}(accountId=${account.id})}">
-                                <input type="submit" value="Activate" class="btn btn-primary" style="width: 100px">
-                            </form>
-                        </td>
-                        <td>
-                            <form th:if="${account.isSuspended}" method="POST"
-                                  th:action="@{/account/unsuspend/{accountId}(accountId=${account.id})}"
-                                  style="float: left">
-                                <input type="submit" value="Unsuspend" class="btn btn-primary" style="width: 100px">
-                            </form>
-                            <form th:if="${!account.isSuspended}" method="POST"
-                                  th:action="@{/account/suspend/{accountId}(accountId=${account.id})}"
-                                  style="float: left">
-                                <input type="submit" value="Suspend" class="btn btn-danger" style="width: 100px">
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <form th:if="${account.isActive}" method="POST" th:action="@{/account/deactivate/{accountId}(accountId=${account.id})}">
+                    <input type="submit" value="Deactivate" class="btn btn-danger">
+                </form>
+                <form th:if="${!account.isActive}" method="POST" th:action="@{/account/activate/{accountId}(accountId=${account.id})}">
+                    <input type="submit" value="Activate" class="btn btn-primary">
+                </form>
             </td>
         </tr>
         </tbody>
