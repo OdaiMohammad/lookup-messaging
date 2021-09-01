@@ -105,8 +105,7 @@ public class AccountService {
         account.setIsactive(createAccountDTO.getIsActive());
         account.setPayersByPayerId(payer);
         account.setFacilityByFacilityId(facility);
-        account.setSuspended(createAccountDTO.getIsSuspended());
-        account.setErrorMessage(createAccountDTO.getErrorMessage());
+        account.setSuspended(false);
         accountRepository.save(account);
     }
 }

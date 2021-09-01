@@ -53,12 +53,6 @@
                 </option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="errorMessage"></label>
-            <input type="text" class="form-control " id="errorMessage" name="errorMessage" aria-describedby="errorMessageHelp" th:value="${account.getErrorMessage()}"
-                   placeholder="Error message">
-            <small id="errorMessageHelp" class="form-text text-muted">Enter an error message for this account if necessary</small>
-        </div>
 <!--        <span class="validationError alert alert-danger"-->
 <!--              role="alert"-->
 <!--              th:if="${#fields.hasErrors('userName')}"-->
@@ -97,10 +91,6 @@
         <div class="form-check" style="margin-bottom: 8px">
             <input type="checkbox" th:field="${account.isActive}" class="form-check-input" id="isActive" name="isActive">
             <label class="form-check-label" for="isActive">Account is active</label>
-        </div>
-        <div class="form-check" style="margin-bottom: 8px">
-            <input type="checkbox" th:field="${account.isSuspended}" class="form-check-input" id="isActive" name="isActive">
-            <label class="form-check-label" for="isActive">Account is suspended</label>
         </div>
         <button type="submit" class="btn btn-primary btn-lg">Create account</button>
     </form>
