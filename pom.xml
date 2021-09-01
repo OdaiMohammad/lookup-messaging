@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>container-supervisor</module>
         <module>lookup-requests-distributor</module>
         <module>lookup-requests-manager</module>
     </modules>
