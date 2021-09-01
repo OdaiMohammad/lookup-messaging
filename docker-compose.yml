@@ -102,6 +102,21 @@ services:
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+  container-supervisor:
+    build: container-supervisor/.
+    image: container-supervisor:latest
+    container_name: container-supervisor
+    restart: always
+    ports:
+      - 9094:8080
+    networks:
+      - lookup
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    logging:
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
       
 volumes:
   lookup_zookeeper_data:
