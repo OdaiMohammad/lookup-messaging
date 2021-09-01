@@ -43,10 +43,10 @@
             <td th:text="${account.payer.payerCode}">Row 1 Data 1</td>
             <td>
                 <form th:if="${account.isActive}" method="POST" th:action="@{/account/deactivate/{accountId}(accountId=${account.id})}">
-                    <input type="submit" value="Deactivate" class="btn btn-danger">
+                    <input type="submit" value="Deactivate" class="btn btn-danger" style="width: 100px">
                 </form>
                 <form th:if="${!account.isActive}" method="POST" th:action="@{/account/activate/{accountId}(accountId=${account.id})}">
-                    <input type="submit" value="Activate" class="btn btn-primary">
+                    <input type="submit" value="Activate" class="btn btn-primary" style="width: 100px">
                 </form>
             </td>
         </tr>
