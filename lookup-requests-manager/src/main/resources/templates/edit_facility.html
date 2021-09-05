@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>New facility</title>
+    <title>Edit facility</title>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.js"
@@ -16,7 +16,7 @@
 <body>
 <header th:insert="header.html :: header"></header>
 <div class="container-fluid">
-    <form  method="POST" th:action="@{/facility/new}" th:object="${facility}">
+    <form  method="POST" th:action="@{/facility/edit/{facilityId}(facilityId=${facility.id})}" th:object="${facility}">
         <span class="validationError alert alert-danger"
               role="alert"
               th:if="${#fields.hasErrors('facilityName')}"
@@ -37,14 +37,14 @@
         </div>
         <div class="form-group">
             <label for="description">Facility description</label>
-            <textarea th:value="${facility.getDescription()}" class="form-control" id="description" rows="3" name="description" aria-describedby="facilityDescHelp"></textarea>
+            <input type="text" th:value="${facility.getDescription()}" class="form-control" id="description" name="description" aria-describedby="facilityCodeHelp" placeholder="Facility's description">
             <small id="facilityDescHelp" class="form-text text-muted">Enter a description for this facility</small>
         </div>
         <div class="form-check" style="margin-bottom: 8px">
             <input type="checkbox" th:field="${facility.isActive}" class="form-check-input" id="isActive" name="isActive">
             <label class="form-check-label" for="isActive">Facility is active</label>
         </div>
-        <button type="submit" class="btn btn-primary btn-lg">Create facility</button>
+        <button type="submit" class="btn btn-primary btn-lg">Save changes</button>
     </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"

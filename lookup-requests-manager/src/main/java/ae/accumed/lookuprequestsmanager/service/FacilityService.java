@@ -32,6 +32,16 @@ public class FacilityService {
         return payerOptional.orElse(null);
     }
 
+    public FacilityDTO findByIdAsDTO(int id) {
+        Optional<Facility> facilityOptional = facilityRepository.findById(id);
+        if(facilityOptional.isPresent()) {
+            Facility facility = facilityOptional.get();
+            return new FacilityDTO(facility.getId(), facility.getDescription(), facility.isFacilityActive(), facility.getFacilityCode(), facility.getFacilityName());
+        }
+        return null;
+
+    }
+
     public void save(FacilityDTO facilityDTO) {
         Facility facility = new Facility();
         facility.setFacilityName(facilityDTO.getFacilityName());
@@ -56,5 +66,9 @@ public class FacilityService {
             facility.setFacilityActive(false);
             facilityRepository.save(facility);
         }
+    }
+
+    public void edit(Facility facility) {
+        facilityRepository.save(facility);
     }
 }

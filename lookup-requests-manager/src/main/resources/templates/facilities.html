@@ -42,11 +42,14 @@
             <td th:text="${facility.facilityCode}">Row 1 Data 1</td>
             <td th:text="${facility.description}">Row 1 Data 1</td>
             <td>
-                <form th:if="${facility.isActive}" method="POST" th:action="@{/facility/deactivate/{facilityId}(facilityId=${facility.id})}">
+                <form th:if="${facility.isActive}" method="POST" th:action="@{/facility/deactivate/{facilityId}(facilityId=${facility.id})}" style="float:left; margin-right: 20px">
                     <input type="submit" value="Deactivate" class="btn btn-danger" style="width: 100px">
                 </form>
-                <form th:if="${!facility.isActive}" method="POST" th:action="@{/facility/activate/{facilityId}(facilityId=${facility.id})}">
+                <form th:if="${!facility.isActive}" method="POST" th:action="@{/facility/activate/{facilityId}(facilityId=${facility.id})}" style="float:left; margin-right: 20px">
                     <input type="submit" value="Activate" class="btn btn-primary" style="width: 100px">
+                </form>
+                <form  method="GET" th:action="@{/facility/edit/{facilityId}(facilityId=${facility.id})}">
+                    <input type="submit" value="Edit" class="btn btn-primary" style="width: 100px">
                 </form>
             </td>
         </tr>
