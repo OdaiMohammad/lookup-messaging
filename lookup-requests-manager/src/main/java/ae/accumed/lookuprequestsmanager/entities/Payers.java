@@ -11,6 +11,7 @@ public class Payers {
     private Boolean payerActive;
     private String payerCode;
     private String payerName;
+    private int crawlerCountMs;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -89,5 +90,15 @@ public class Payers {
     @Override
     public int hashCode() {
         return Objects.hash(id, crawlingMethode, needCaptcha, payerActive, payerCode, payerName);
+    }
+
+    @Basic
+    @Column(name = "crawler_count_ms")
+    public int getCrawlerCountMs() {
+        return crawlerCountMs;
+    }
+
+    public void setCrawlerCountMs(int crawlerCountMs) {
+        this.crawlerCountMs = crawlerCountMs;
     }
 }

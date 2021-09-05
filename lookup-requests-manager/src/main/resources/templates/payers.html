@@ -31,6 +31,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Code</th>
+            <th>Estimated crawling time (ms)</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -39,6 +40,7 @@
             <td th:text="${payer.id}">Row 1 Data 1</td>
             <td th:text="${payer.payerName}">Row 1 Data 1</td>
             <td th:text="${payer.payerCode}">Row 1 Data 1</td>
+            <td th:text="${payer.crawlerCountMs}">Row 1 Data 1</td>
             <td>
                 <form th:if="${payer.isActive}" method="POST" th:action="@{/payer/deactivate/{payerId}(payerId=${payer.id})}">
                     <input type="submit" value="Deactivate" class="btn btn-danger" style="width: 100px">

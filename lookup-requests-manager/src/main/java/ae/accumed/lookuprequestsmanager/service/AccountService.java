@@ -11,6 +11,7 @@ import ae.accumed.lookuprequestsmanager.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,7 +48,8 @@ public class AccountService {
                                         account.getPayersByPayerId().getId(),
                                         account.getPayersByPayerId().getPayerActive(),
                                         account.getPayersByPayerId().getPayerCode(),
-                                        account.getPayersByPayerId().getPayerName()
+                                        account.getPayersByPayerId().getPayerName(),
+                                        formatNumber(Double.parseDouble(account.getPayersByPayerId().getCrawlingMethode()))
                                 )))
                 .collect(Collectors.toList());
     }
@@ -85,5 +87,10 @@ public class AccountService {
         account.setPayersByPayerId(payer);
         account.setFacilityByFacilityId(facility);
         accountRepository.save(account);
+    }
+
+    private String formatNumber(double number) {
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        return formatter.format(number);
     }
 }

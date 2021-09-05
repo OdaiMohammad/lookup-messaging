@@ -35,6 +35,15 @@
             <input type="text" th:value="${payer.getPayerCode()}" class="form-control" id="payerCode" name="payerCode" aria-describedby="payerCodeHelp" placeholder="Payer's code">
             <small id="payerCodeHelp" class="form-text text-muted">Enter the payer's code</small>
         </div>
+        <span class="validationError alert alert-danger"
+              role="alert"
+              th:if="${#fields.hasErrors('crawlerCountMs')}"
+              th:errors="*{crawlerCountMs}">payerCode Error</span>
+        <div class="form-group">
+            <label for="crawlerCountMs"></label>
+            <input type="text" th:value="${payer.getCrawlerCountMs()}" class="form-control" id="crawlerCountMs" name="crawlerCountMs" aria-describedby="crawlerCountMsHelp" placeholder="Estimated crawling time (ms)">
+            <small id="crawlerCountMsHelp" class="form-text text-muted">Enter the payer's estimated crawling time</small>
+        </div>
         <div class="form-check" style="margin-bottom: 8px">
             <input type="checkbox" th:field="${payer.isActive}" class="form-check-input" id="isActive" name="isActive">
             <label class="form-check-label" for="isActive">Payer is active</label>

@@ -22,4 +22,9 @@ public class PayerDTO {
     @NotNull(message = "Please enter a name for this payer")
     @NotEmpty(message = "Please enter a name for this payer")
     private String payerName;
+
+
+    @NotNull(message = "Please enter the estimated crawling time for this payer")
+    @NotEmpty(message = "Please enter the estimated crawling time for this payer")
+    private String crawlerCountMs;
 }
