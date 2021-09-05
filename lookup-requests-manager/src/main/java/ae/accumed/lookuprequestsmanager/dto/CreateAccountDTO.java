@@ -26,12 +26,8 @@ public class CreateAccountDTO {
     @NotEmpty(message = "Please enter a username for this account")
     private String userName;
 
-    @NotNull(message = "Please enter a password for this account")
-    @NotEmpty(message = "Please enter a password for this account")
     private String password;
 
-    @NotNull(message = "Please confirm the password for this account")
-    @NotEmpty(message = "Please confirm the a password for this account")
     private String repeatPassword;
 
     private Boolean isActive;

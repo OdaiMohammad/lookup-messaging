@@ -23,13 +23,13 @@ public class AccountService {
     private final FacilityService facilityService;
 
     @Autowired
-    public AccountService(AccountRepository accountRepository,PayerService payerService,FacilityService facilityService) {
+    public AccountService(AccountRepository accountRepository, PayerService payerService, FacilityService facilityService) {
         this.accountRepository = accountRepository;
         this.payerService = payerService;
         this.facilityService = facilityService;
     }
 
-    public ArrayList<AccountDTO> findAll(){
+    public ArrayList<AccountDTO> findAll() {
         ArrayList<Account> accounts = (ArrayList<Account>) accountRepository.findAll();
         return (ArrayList<AccountDTO>) accounts.stream()
                 .map(account ->
@@ -49,28 +49,44 @@ public class AccountService {
                                         account.getPayersByPayerId().getPayerActive(),
                                         account.getPayersByPayerId().getPayerCode(),
                                         account.getPayersByPayerId().getPayerName(),
-                                        formatNumber(Double.parseDouble(account.getPayersByPayerId().getCrawlingMethode()))
+                                        formatNumber(account.getPayersByPayerId().getCrawlerCountMs())
                                 )))
                 .collect(Collectors.toList());
     }
 
-    public Account findById(int id){
+    public Account findById(int id) {
         Optional<Account> accountOptional = accountRepository.findById(id);
         return accountOptional.orElse(null);
     }
 
-    public void activateAccount(int id){
+    public CreateAccountDTO findByIdAsDTO(int id) {
         Optional<Account> accountOptional = accountRepository.findById(id);
-        if(accountOptional.isPresent()){
+        if (accountOptional.isPresent()) {
+            Account account = accountOptional.get();
+            return new CreateAccountDTO(
+                    account.getId(),
+                    account.getPayersByPayerId().getId(),
+                    account.getFacilityByFacilityId().getId(),
+                    account.getUserName(),
+                    account.getPassword(),
+                    account.getPassword(),
+                    account.getIsactive());
+        }
+        return null;
+    }
+
+    public void activateAccount(int id) {
+        Optional<Account> accountOptional = accountRepository.findById(id);
+        if (accountOptional.isPresent()) {
             Account account = accountOptional.get();
             account.setIsactive(true);
             accountRepository.save(account);
         }
     }
 
-    public void deactivateAccount(int id){
+    public void deactivateAccount(int id) {
         Optional<Account> accountOptional = accountRepository.findById(id);
-        if(accountOptional.isPresent()){
+        if (accountOptional.isPresent()) {
             Account account = accountOptional.get();
             account.setIsactive(false);
             accountRepository.save(account);
@@ -86,6 +102,10 @@ public class AccountService {
         account.setIsactive(createAccountDTO.getIsActive());
         account.setPayersByPayerId(payer);
         account.setFacilityByFacilityId(facility);
+        accountRepository.save(account);
+    }
+
+    public void edit(Account account) {
         accountRepository.save(account);
     }
 
