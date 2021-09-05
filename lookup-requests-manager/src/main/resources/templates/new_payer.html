@@ -37,6 +37,15 @@
         </div>
         <span class="validationError alert alert-danger"
               role="alert"
+              th:if="${#fields.hasErrors('companyName')}"
+              th:errors="*{companyName}">companyName Error</span>
+        <div class="form-group">
+            <label for="companyName"></label>
+            <input type="text" th:value="${payer.getCompanyName()}" class="form-control" id="companyName" name="companyName" aria-describedby="companyNameHelp" placeholder="Payer's company">
+            <small id="companyNameHelp" class="form-text text-muted">Enter the payer's company</small>
+        </div>
+        <span class="validationError alert alert-danger"
+              role="alert"
               th:if="${#fields.hasErrors('crawlerCountMs')}"
               th:errors="*{crawlerCountMs}">payerCode Error</span>
         <div class="form-group">

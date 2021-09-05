@@ -27,4 +27,9 @@ public class PayerDTO {
     @NotNull(message = "Please enter the estimated crawling time for this payer")
     @NotEmpty(message = "Please enter the estimated crawling time for this payer")
     private String crawlerCountMs;
+
+
+    @NotNull(message = "Please enter the company name for this payer")
+    @NotEmpty(message = "Please enter the company name for this payer")
+    private String companyName;
 }

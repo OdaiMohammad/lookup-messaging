@@ -29,7 +29,8 @@ public class PayerService {
                                 payer.getPayerActive(),
                                 payer.getPayerCode(),
                                 payer.getPayerName(),
-                                formatNumber(payer.getCrawlerCountMs())
+                                formatNumber(payer.getCrawlerCountMs()),
+                                payer.getCompanyName()
                         )
                 )
                 .collect(Collectors.toList());
@@ -49,7 +50,8 @@ public class PayerService {
                     payer.getPayerActive(),
                     payer.getPayerCode(),
                     payer.getPayerName(),
-                    formatNumber(payer.getCrawlerCountMs())
+                    formatNumber(payer.getCrawlerCountMs()),
+                    payer.getCompanyName()
             );
         }
         return null;
@@ -61,6 +63,7 @@ public class PayerService {
         payers.setPayerCode(payerDTO.getPayerCode());
         payers.setPayerActive(payerDTO.getIsActive());
         payers.setCrawlerCountMs(Integer.parseInt(payerDTO.getCrawlerCountMs()));
+        payers.setCompanyName(payerDTO.getCompanyName());
         payerRepository.save(payers);
     }
 

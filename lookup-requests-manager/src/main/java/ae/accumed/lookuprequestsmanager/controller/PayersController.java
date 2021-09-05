@@ -82,6 +82,7 @@ public class PayersController {
         payer.setPayerCode(payerDTO.getPayerCode());
         payer.setCrawlerCountMs(Integer.parseInt(payerDTO.getCrawlerCountMs()));
         payer.setPayerActive(payerDTO.getIsActive());
+        payer.setCompanyName(payerDTO.getCompanyName());
         payerService.edit(payer);
         model.addAttribute("data", payerService.findAll());
         return "redirect:/payer";

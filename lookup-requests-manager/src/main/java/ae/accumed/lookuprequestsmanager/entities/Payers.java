@@ -12,6 +12,7 @@ public class Payers {
     private String payerCode;
     private String payerName;
     private int crawlerCountMs;
+    private String companyName;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -100,5 +101,15 @@ public class Payers {
 
     public void setCrawlerCountMs(int crawlerCountMs) {
         this.crawlerCountMs = crawlerCountMs;
+    }
+
+    @Basic
+    @Column(name = "company_name")
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

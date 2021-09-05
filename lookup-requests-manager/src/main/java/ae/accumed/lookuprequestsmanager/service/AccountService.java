@@ -49,7 +49,8 @@ public class AccountService {
                                         account.getPayersByPayerId().getPayerActive(),
                                         account.getPayersByPayerId().getPayerCode(),
                                         account.getPayersByPayerId().getPayerName(),
-                                        formatNumber(account.getPayersByPayerId().getCrawlerCountMs())
+                                        formatNumber(account.getPayersByPayerId().getCrawlerCountMs()),
+                                        account.getPayersByPayerId().getCompanyName()
                                 )))
                 .collect(Collectors.toList());
     }
