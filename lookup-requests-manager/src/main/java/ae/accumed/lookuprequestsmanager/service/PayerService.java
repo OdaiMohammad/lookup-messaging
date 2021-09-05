@@ -40,6 +40,21 @@ public class PayerService {
         return payerOptional.orElse(null);
     }
 
+    public PayerDTO findByIdAsDTO(int id) {
+        Optional<Payers> payerOptional = payerRepository.findById(id);
+        if(payerOptional.isPresent()) {
+            Payers payer = payerOptional.get();
+            return new PayerDTO(
+                    payer.getId(),
+                    payer.getPayerActive(),
+                    payer.getPayerCode(),
+                    payer.getPayerName(),
+                    formatNumber(payer.getCrawlerCountMs())
+            );
+        }
+        return null;
+    }
+
     public void save(PayerDTO payerDTO) {
         Payers payers = new Payers();
         payers.setPayerName(payerDTO.getPayerName());
@@ -47,6 +62,10 @@ public class PayerService {
         payers.setPayerActive(payerDTO.getIsActive());
         payers.setCrawlerCountMs(Integer.parseInt(payerDTO.getCrawlerCountMs()));
         payerRepository.save(payers);
+    }
+
+    public void edit(Payers payer) {
+        payerRepository.save(payer);
     }
 
     public void activatePayer(int id) {
