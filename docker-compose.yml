@@ -150,6 +150,7 @@ services:
       SPRING_ZIPKIN_BASE_URL: "http://lookup-zipkin:9411"
       SPRING_DATASOURCE_URL: "jdbc:sqlserver://mssql:1433;database=LookUp_DB"
       TOPIC_LOOKUP_REQUESTS_NAME: "mssql.dbo.TRANSACTIONS"
+      NEW_TOPIC_DEFAULT_PARTITIONS: 1
     depends_on:
       - lookup-kafka-1
       - lookup-kafka-2
