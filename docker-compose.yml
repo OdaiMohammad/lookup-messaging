@@ -171,7 +171,7 @@ services:
       SUPERVISOR_SERVER_ADDRESS: "container-supervisor:8080"
     networks:
       nt0:
-        ipv4_address: 172.30.0.51
+        ipv4_address: 172.50.0.51
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -201,7 +201,7 @@ services:
       - lookup-kafka-3
     networks:
       nt0:
-        ipv4_address: 172.30.0.54
+        ipv4_address: 172.50.0.54
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -212,7 +212,7 @@ services:
     restart: always
     networks:
       nt0:
-        ipv4_address: 172.30.0.53
+        ipv4_address: 172.50.0.53
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
