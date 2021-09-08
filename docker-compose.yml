@@ -149,6 +149,8 @@ services:
       SPRING_APPLICATION_NAME: "lookup-distributor"
       SPRING_ZIPKIN_BASE_URL: "http://lookup-zipkin:9411"
       SPRING_DATASOURCE_URL: "jdbc:sqlserver://mssql:1433;database=LookUp_DB"
+      SPRING_DATASOURCE_USERNAME: "SA"
+      SPRING_DATASOURCE_PASSWORD: "P@18606w0rd"
       TOPIC_LOOKUP_REQUESTS_NAME: "mssql.dbo.TRANSACTIONS"
       NEW_TOPIC_DEFAULT_PARTITIONS: 1
     depends_on:
@@ -168,6 +170,8 @@ services:
     restart: always
     environment:
       SPRING_DATASOURCE_URL: "jdbc:sqlserver://mssql:1433;database=LookUp_DB"
+      SPRING_DATASOURCE_USERNAME: "SA"
+      SPRING_DATASOURCE_PASSWORD: "P@18606w0rd"
       SUPERVISOR_SERVER_ADDRESS: "container-supervisor:8080"
     networks:
       nt0:
