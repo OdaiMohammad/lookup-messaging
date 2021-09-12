@@ -23,4 +23,5 @@ public class TransactionDetailsDTO {
     private String errorMessage;
     private String userId;
     private String payerName;
+    private String isCashed;
 }

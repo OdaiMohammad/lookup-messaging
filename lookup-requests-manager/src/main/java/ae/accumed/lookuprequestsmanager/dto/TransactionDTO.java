@@ -4,10 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.sql.Date;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,4 +18,5 @@ public class TransactionDTO {
     private String status;
     private String processTime;
     private String payerName;
+    private String isCashed;
 }

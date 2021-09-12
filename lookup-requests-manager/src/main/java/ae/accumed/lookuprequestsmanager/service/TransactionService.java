@@ -60,7 +60,9 @@ public class TransactionService {
                     transaction.getProcessTime() != null ? formatNumber(transaction.getProcessTime()) : "",
                     transaction.getErrorMessage(),
                     transaction.getUserId(),
-                    transaction.getAccountByAccountId().getPayersByPayerId().getPayerName());
+                    transaction.getAccountByAccountId().getPayersByPayerId().getPayerName(),
+                    transaction.getIsCashed() == 0 ? "No" : "Yes"
+            );
         }
         return null;
     }
@@ -85,7 +87,8 @@ public class TransactionService {
                                 transaction.getSource(),
                                 transaction.getStatus(),
                                 transaction.getProcessTime() != null ? formatNumber(transaction.getProcessTime()) : "",
-                                transaction.getAccountByAccountId().getPayersByPayerId().getPayerName()
+                                transaction.getAccountByAccountId().getPayersByPayerId().getPayerName(),
+                                transaction.getIsCashed() == 0 ? "No" : "Yes"
                         ))
                 .collect(Collectors.toList());
     }

@@ -1,6 +1,7 @@
 package ae.accumed.lookuprequestsmanager.entities;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -20,6 +21,7 @@ public class Transactions {
     private String pType;
     private String userId;
     private Integer processTime;
+    private int isCashed;
 
     @Id
     @Column(name = "id")
@@ -180,5 +182,15 @@ public class Transactions {
 
     public void setProcessTime(Integer processTime) {
         this.processTime = processTime;
+    }
+
+    @Basic
+    @Column(name = "is_cashed")
+    public int getIsCashed() {
+        return isCashed;
+    }
+
+    public void setIsCashed(int isCashed) {
+        this.isCashed = isCashed;
     }
 }
