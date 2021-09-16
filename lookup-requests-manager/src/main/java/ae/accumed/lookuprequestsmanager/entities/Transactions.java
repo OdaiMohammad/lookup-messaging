@@ -9,11 +9,11 @@ import java.util.Objects;
 public class Transactions {
     private int id;
     private String bulkId;
-    private LocalDateTime createDate;
+    private Date createDate;
     private String eid;
     private String html;
     private String result;
-    private LocalDateTime resultDate;
+    private Date resultDate;
     private String source;
     private String status;
     private Account accountByAccountId;
@@ -45,11 +45,11 @@ public class Transactions {
 
     @Basic
     @Column(name = "create_date")
-    public LocalDateTime getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
@@ -85,11 +85,11 @@ public class Transactions {
 
     @Basic
     @Column(name = "result_date")
-    public LocalDateTime getResultDate() {
+    public Date getResultDate() {
         return resultDate;
     }
 
-    public void setResultDate(LocalDateTime resultDate) {
+    public void setResultDate(Date resultDate) {
         this.resultDate = resultDate;
     }
 

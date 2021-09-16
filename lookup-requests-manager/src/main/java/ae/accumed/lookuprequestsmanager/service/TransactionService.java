@@ -2,6 +2,7 @@ package ae.accumed.lookuprequestsmanager.service;
 
 import ae.accumed.lookuprequestsmanager.dto.TransactionDTO;
 import ae.accumed.lookuprequestsmanager.dto.TransactionDetailsDTO;
+import ae.accumed.lookuprequestsmanager.dto.statistics.RequestsPerPayerDTO;
 import ae.accumed.lookuprequestsmanager.entities.Transactions;
 import ae.accumed.lookuprequestsmanager.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +25,7 @@ import java.util.stream.Collectors;
 @Service
 public class TransactionService {
     private final TransactionRepository transactionRepository;
-    private final static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    private final static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     private static final HashMap<Integer, String> columnIndexMapping = new HashMap<Integer, String>() {
         {
             put(0, "id");
@@ -50,7 +52,7 @@ public class TransactionService {
                     transaction.getId(),
                     transaction.getAccountByAccountId().getId(),
                     transaction.getBulkId(),
-                    String.format("%s\n%s", transaction.getCreateDate().format(dateFormat), transaction.getResultDate() != null ? transaction.getResultDate().format(dateFormat) : ""),
+                    String.format("%s\n%s", dateFormat.format(transaction.getCreateDate()), transaction.getResultDate() != null ? dateFormat.format(transaction.getResultDate()) : ""),
                     transaction.getEid(),
                     transaction.getResult(),
                     transaction.getSource(),
@@ -82,7 +84,7 @@ public class TransactionService {
                                 transaction.getId(),
                                 transaction.getAccountByAccountId().getId(),
                                 transaction.getBulkId(),
-                                String.format("%s <br> %s", transaction.getCreateDate().format(dateFormat), transaction.getResultDate() != null ? transaction.getResultDate().format(dateFormat) : ""),
+                                String.format("%s <br> %s", dateFormat.format(transaction.getCreateDate()), transaction.getResultDate() != null ? dateFormat.format(transaction.getResultDate()) : ""),
                                 transaction.getEid(),
                                 transaction.getSource(),
                                 transaction.getStatus(),
