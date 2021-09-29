@@ -18,7 +18,7 @@ services:
       - membership_messaging_zookeeper_1_log:/var/lib/zookeeper/log
     networks:
       nt0:
-        ipv4_address: 172.50.0.40
+        ipv4_address: 172.50.0.30
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -40,7 +40,7 @@ services:
       - membership_messaging_zookeeper_2_log:/var/lib/zookeeper/log
     networks:
       nt0:
-        ipv4_address: 172.50.0.41
+        ipv4_address: 172.50.0.31
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -62,7 +62,7 @@ services:
       - membership_messaging_zookeeper_3_log:/var/lib/zookeeper/log
     networks:
       nt0:
-        ipv4_address: 172.50.0.42
+        ipv4_address: 172.50.0.32
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -88,7 +88,7 @@ services:
       - $PWD config/jmx-exporter/jmx_prometheus_javaagent-0.16.0.jar:/usr/lib/jmx_prometheus_javaagent-0.16.0.jar
     networks:
       nt0:
-        ipv4_address: 172.50.0.43
+        ipv4_address: 172.50.0.33
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -114,7 +114,7 @@ services:
       - $PWD config/jmx-exporter/jmx_prometheus_javaagent-0.15.0.jar:/opt/prometheus/jmx_prometheus_javaagent-0.15.0.jar
     networks:
       nt0:
-        ipv4_address: 172.50.0.44
+        ipv4_address: 172.50.0.34
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -140,7 +140,7 @@ services:
       - $PWD config/jmx-exporter/jmx_prometheus_javaagent-0.15.0.jar:/opt/prometheus/jmx_prometheus_javaagent-0.15.0.jar
     networks:
       nt0:
-        ipv4_address: 172.50.0.45
+        ipv4_address: 172.50.0.35
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -165,7 +165,7 @@ services:
       - lookup-kafka-3
     networks:
       nt0:
-        ipv4_address: 172.50.0.46
+        ipv4_address: 172.50.0.36
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -194,7 +194,7 @@ services:
     restart: always
     networks:
       nt0:
-        ipv4_address: 172.50.0.47
+        ipv4_address: 172.50.0.37
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     logging:
