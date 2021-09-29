@@ -17,7 +17,8 @@ services:
       - membership_messaging_zookeeper_1_data:/var/lib/zookeeper/data
       - membership_messaging_zookeeper_1_log:/var/lib/zookeeper/log
     networks:
-      - stg0
+      stg0:
+        ipv4_address: 172.30.0.40
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -38,7 +39,8 @@ services:
       - membership_messaging_zookeeper_2_data:/var/lib/zookeeper/data
       - membership_messaging_zookeeper_2_log:/var/lib/zookeeper/log
     networks:
-      - stg0
+      stg0:
+        ipv4_address: 172.30.0.41
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -59,7 +61,8 @@ services:
       - membership_messaging_zookeeper_3_data:/var/lib/zookeeper/data
       - membership_messaging_zookeeper_3_log:/var/lib/zookeeper/log
     networks:
-      - stg0
+      stg0:
+        ipv4_address: 172.30.0.42
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -84,7 +87,8 @@ services:
       - $PWD/config/jmx-exporter/kafka-broker/kafka_broker.yml:/usr/lib/kafka_broker.yml
       - $PWD config/jmx-exporter/jmx_prometheus_javaagent-0.16.0.jar:/usr/lib/jmx_prometheus_javaagent-0.16.0.jar
     networks:
-      - stg0
+      stg0:
+        ipv4_address: 172.30.0.43
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -109,7 +113,8 @@ services:
       - $PWD/config/jmx-exporter/kafka-broker/kafka_broker.yml:/opt/prometheus/kafka_broker.yml
       - $PWD config/jmx-exporter/jmx_prometheus_javaagent-0.15.0.jar:/opt/prometheus/jmx_prometheus_javaagent-0.15.0.jar
     networks:
-      - stg0
+      stg0:
+        ipv4_address: 172.30.0.44
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -134,7 +139,8 @@ services:
       - $PWD/config/jmx-exporter/kafka-broker/kafka_broker.yml:/opt/prometheus/kafka_broker.yml
       - $PWD config/jmx-exporter/jmx_prometheus_javaagent-0.15.0.jar:/opt/prometheus/jmx_prometheus_javaagent-0.15.0.jar
     networks:
-      - stg0
+      stg0:
+        ipv4_address: 172.30.0.45
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -156,7 +162,8 @@ services:
       - lookup-kafka-2
       - lookup-kafka-3
     networks:
-      - stg0
+      stg0:
+        ipv4_address: 172.30.0.46
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -171,7 +178,7 @@ services:
       SUPERVISOR_SERVER_ADDRESS: "container-supervisor:8080"
     networks:
       stg0:
-        ipv4_address: 172.30.0.51
+        ipv4_address: 172.30.0.47
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -182,7 +189,8 @@ services:
     container_name: container-supervisor
     restart: always
     networks:
-      - stg0
+      stg0:
+        ipv4_address: 172.30.0.48
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     logging:
