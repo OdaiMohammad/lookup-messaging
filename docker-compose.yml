@@ -18,7 +18,7 @@ services:
       - membership_messaging_zookeeper_1_log:/var/lib/zookeeper/log
     networks:
       nt0:
-        ipv4_address: 172.50.0.100
+        ipv4_address: 172.50.0.110
     logging:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
