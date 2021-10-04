@@ -7,4 +7,5 @@ import java.util.List;
 @Data
 public class StatisticsDTO {
     List<PayerStatisticsDTO> payerStats;
+    List<AccountStatisticsDTO> accountStats;
 }

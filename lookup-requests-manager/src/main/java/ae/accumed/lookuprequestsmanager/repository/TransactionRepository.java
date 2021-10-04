@@ -1,5 +1,6 @@
 package ae.accumed.lookuprequestsmanager.repository;
 
+import ae.accumed.lookuprequestsmanager.dto.statistics.RequestsPerAccountDTO;
 import ae.accumed.lookuprequestsmanager.dto.statistics.RequestsPerPayerDTO;
 import ae.accumed.lookuprequestsmanager.entities.Transactions;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,6 @@ public interface TransactionRepository extends JpaRepository<Transactions, Integ
 
     @Query("select new ae.accumed.lookuprequestsmanager.dto.statistics.RequestsPerPayerDTO(p.payerCode, t.status, count(t)) from Transactions t join Account a on t.accountByAccountId = a join Payers p on a.payersByPayerId = p where t.createDate >= ?1 and t.createDate < ?2 group by p.payerCode, t.status")
     List<RequestsPerPayerDTO> getRequestsPerPayerStatistics(Date start, Date end);
+    @Query("select new ae.accumed.lookuprequestsmanager.dto.statistics.RequestsPerAccountDTO(a.id, t.status, count(t)) from Transactions t join Account a on t.accountByAccountId = a where t.createDate >= ?1 and t.createDate < ?2 group by a.id, t.status")
+    List<RequestsPerAccountDTO> getRequestsPerAccountStatistics(Date start, Date end);
 }

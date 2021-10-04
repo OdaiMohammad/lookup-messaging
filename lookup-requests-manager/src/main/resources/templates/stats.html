@@ -30,7 +30,7 @@
 <div class="col-4" style="margin-left: auto; margin-right: 0">
     <input type="submit" name="datetimes" class="form-control">
 </div>
-<table id="myTable" class="display">
+<table id="payerStats" class="display statsTable">
     <caption style="caption-side: top; color: black; margin-left: 16px"><h3>Requests per payer:</h3></caption>
     <thead>
     <tr>
@@ -53,9 +53,32 @@
     </tr>
     </tbody>
 </table>
+<table id="accountStats" class="display statsTable">
+    <caption style="caption-side: top; color: black; margin-left: 16px"><h3>Requests per account:</h3></caption>
+    <thead>
+    <tr>
+        <th style="margin-left: 16px">ID</th>
+        <th>Pending</th>
+        <th>Eligible</th>
+        <th>Not Eligible</th>
+        <th>Error</th>
+        <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="account: ${data.getAccountStats()}">
+        <td th:text="${account.id}" style="margin-left: 16px">Row 1 Data 1</td>
+        <td th:text="${account.pendingCount}">Row 1 Data 1</td>
+        <td th:text="${account.eligibleCount}">Row 1 Data 1</td>
+        <td th:text="${account.notEligibleCount}">Row 1 Data 1</td>
+        <td th:text="${account.errorCount}">Row 1 Data 1</td>
+        <td th:text="${account.totalCount}">Row 1 Data 1</td>
+    </tr>
+    </tbody>
+</table>
 <script>
     $(document).ready(function () {
-        $('#myTable').DataTable(
+        $('.statsTable').DataTable(
             {
                 paging: false,
                 ordering: false,
