@@ -157,6 +157,8 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:sqlserver://mssql:1433;database=LookUp_DB"
       TOPIC_LOOKUP_REQUESTS_NAME: "mssql.dbo.TRANSACTIONS"
       NEW_TOPIC_DEFAULT_PARTITIONS: 1
+      SPRING_DATASOURCE_PASSWORD: P@ssw0rd123
+      SPRING_DATASOURCE_username: sa
     depends_on:
       - lookup-kafka-1
       - lookup-kafka-2
@@ -176,6 +178,8 @@ services:
     environment:
       SPRING_DATASOURCE_URL: "jdbc:sqlserver://mssql:1433;database=LookUp_DB"
       SUPERVISOR_SERVER_ADDRESS: "container-supervisor:8080"
+      SPRING_DATASOURCE_PASSWORD: P@ssw0rd123
+      SPRING_DATASOURCE_username: sa
     networks:
       stg0:
         ipv4_address: 172.30.0.47
